@@ -36,23 +36,23 @@ namespace Inters {
 
         /** Overloading math operators **/
         bool operator<(const Inters::Line &l1) {
-            return this->getV0() < l1.getV0();
+            return *this->getV0() < *l1.getV0();
         }
 
         bool operator>(const Inters::Line &l1) {
-            return this->getV0() > l1.getV0();
+            return *this->getV0() > *l1.getV0();
         }
 
         bool operator==(const Inters::Line &l1) {
-            return this->getV0() == l1.getV0();
+            return *this->getV0() == *l1.getV0();
         }
 
         bool operator<=(const Inters::Line &l1) {
-            return this->getV0() <= l1.getV0();
+            return *this->getV0() <= *l1.getV0();
         }
 
         bool operator>=(const Inters::Line &l1) {
-            return this->getV0() >= l1.getV0();
+            return *this->getV0() >= *l1.getV0();
         }
 
         friend std::ostream &operator<<(std::ostream &output,
