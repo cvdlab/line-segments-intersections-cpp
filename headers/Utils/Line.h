@@ -6,6 +6,7 @@
 #define INTERSCPP_LINE_H
 
 #include "Point.h"
+#include <ostream>
 
 namespace Inters {
     class Line {
@@ -15,9 +16,9 @@ namespace Inters {
 
     public:
 
-        Line(Point v0, Point v1) {
-            this->v0 = &v0;
-            this->v1 = &v1;
+        Line(Point *v0, Point *v1) {
+            this->v0 = v0;
+            this->v1 = v1;
         }
 
         Point *getV0() const {
@@ -34,17 +35,34 @@ namespace Inters {
         }
 
         /** Overloading math operators **/
-        friend bool operator<(const Line &l1, const Line &l2);
+        bool operator<(const Inters::Line &l1) {
+            return this->getV0() < l1.getV0();
+        }
 
-        friend bool operator>(const Line &l1, const Line &l2);
+        bool operator>(const Inters::Line &l1) {
+            return this->getV0() > l1.getV0();
+        }
 
-        friend bool operator==(const Line &l1, const Line &l2);
+        bool operator==(const Inters::Line &l1) {
+            return this->getV0() == l1.getV0();
+        }
 
-        friend bool operator<=(const Line &l1, const Line &l2);
+        bool operator<=(const Inters::Line &l1) {
+            return this->getV0() <= l1.getV0();
+        }
 
-        friend bool operator>=(const Line &l1, const Line &l2);
+        bool operator>=(const Inters::Line &l1) {
+            return this->getV0() >= l1.getV0();
+        }
+
+        friend std::ostream &operator<<(std::ostream &output,
+                                        const Line &l) {
+            output << "Line[" << *l.getV0() << " ; " << *l.getV1() << "]";
+            return output;
+        }
 
     };
+
 }
 
 #endif //INTERSCPP_LINE_H

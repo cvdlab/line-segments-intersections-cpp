@@ -5,6 +5,8 @@
 #ifndef INTERSCPP_POINT_H
 #define INTERSCPP_POINT_H
 
+#include <ostream>
+
 namespace Inters {
     class Point {
 
@@ -62,6 +64,13 @@ namespace Inters {
 
             return this->getY() > p1.getY();
         }
+
+        friend std::ostream &operator<<(std::ostream &output,
+                                        const Point &p) {
+            output << "Point(" << p.getX() << "," << p.getY() << ")";
+            return output;
+        }
+
 
     };
 }
