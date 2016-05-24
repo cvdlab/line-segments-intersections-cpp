@@ -8,12 +8,13 @@
 
 #include "Point.h"
 #include "Line.h"
+#include "Intersection.h"
 
 namespace Inters {
     class LineUtils {
 
     public:
-        Point *findIntersection(Line *l1, Line *l2);
+        Intersection *findIntersection(Line *l1, Line *l2);
 
         double determinant(double m1, double m2, double m3, double m4);
 

@@ -4,9 +4,10 @@
 
 #include <cstdlib>
 #include "../../headers/Utils/LineUtils.h"
+#include "../../headers/Utils/Intersection.h"
 
 /* Find the intersection point between two lines */
-Inters::Point *Inters::LineUtils::findIntersection(Line *l1, Line *l2) {
+Inters::Intersection *Inters::LineUtils::findIntersection(Line *l1, Line *l2) {
 
     /* First line goes between a and b */
     Point *a = l1->getV0();
@@ -19,24 +20,31 @@ Inters::Point *Inters::LineUtils::findIntersection(Line *l1, Line *l2) {
     double det = determinant(a->getX() - b->getX(), d->getX() - c->getX(), a->getY() - b->getY(),
                              d->getY() - c->getY());
 
+    double lambdaNum = determinant(d->getX() - b->getX(), d->getX() - c->getX(), d->getY() - b->getY(),
+                                   d->getY() - c->getY());
+
+    double muNum = determinant(a->getX() - b->getX(), d->getX() - b->getX(), a->getY() - b->getY(),
+                               d->getY() - b->getY());
+
     if (det == 0) {
+        if (lambdaNum == 0) {
+            return new Intersection(NULL, std::pair<Line *, Line *>(l1, l2), true);
+        }
         /* The lines are parallel or coincident */
         return NULL;
     }
 
     /* lambda and mu are the coefficients of the equations of the two lines */
-    double lambda = determinant(d->getX() - b->getX(), d->getX() - c->getX(), d->getY() - b->getY(),
-                                d->getY() - c->getY()) / det;
+    double lambda = lambdaNum / det;
 
-    double mu = determinant(a->getX() - b->getX(), d->getX() - b->getX(), a->getY() - b->getY(),
-                            d->getY() - b->getY()) / det;
-    
+    double mu = muNum / det;
+
     if (lambda >= 0 && lambda <= 1 && mu >= 0 && mu <= 1) {
         /* Compute intersection point */
         double intersX = lambda * a->getX() + (1 - lambda) * b->getX();
         double intersY = lambda * a->getY() + (1 - lambda) * b->getY();
 
-        return new Point(intersX, intersY);
+        return new Intersection(new Point(intersX, intersY), std::pair<Line *, Line *>(l1, l2), false);
     }
 
     return NULL; // We do not have an intersection
