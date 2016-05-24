@@ -80,6 +80,12 @@ namespace Inters {
             return this->getPoint()->getX() > e1.getPoint()->getX();
         }
 
+        friend std::ostream &operator<<(std::ostream &output,
+                                        const Event &e) {
+            output << "Event: {" << *e.getPoint() << "}";
+            return output;
+        }
+
 
     };
 }
