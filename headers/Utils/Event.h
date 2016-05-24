@@ -60,7 +60,7 @@ namespace Inters {
         }
 
         bool operator==(const Inters::Event &e1) {
-            return this->getPoint() == e1.getPoint();
+            return *this->getPoint() == *e1.getPoint();
         }
 
         bool operator<=(const Inters::Event &e1) {
