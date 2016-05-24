@@ -15,10 +15,9 @@ namespace Inters {
         std::list<std::pair<Line *, Line *> > intersections;
 
 
-        Event(Point
-              *point,
+        Event(Point *point,
               std::list<Line> right, std::list<Line> left,
-              std::list<std::pair<Line *, Line *> > &intersections
+              std::list<std::pair<Line *, Line *> > intersections
         ) :
 
                 point(point), rights(right),
@@ -42,15 +41,45 @@ namespace Inters {
         }
 
         /** Overloading math operators **/
-        friend bool operator<(const Event &c1);
+        bool operator<(const Inters::Event &e1) {
 
-        friend bool operator>(const Event &c1);
+            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+                return this->getPoint()->getY() < e1.getPoint()->getY();
+            }
 
-        friend bool operator==(const Event &c1);
+            return this->getPoint()->getX() < e1.getPoint()->getX();
+        };
 
-        friend bool operator<=(const Event &c1);
+        bool operator>(const Inters::Event &e1) {
+            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+                return this->getPoint()->getY() > e1.getPoint()->getY();
+            }
 
-        friend bool operator>=(const Event &c1);
+            return this->getPoint()->getX() > e1.getPoint()->getX();
+
+        }
+
+        bool operator==(const Inters::Event &e1) {
+            return this->getPoint() == e1.getPoint();
+        }
+
+        bool operator<=(const Inters::Event &e1) {
+            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+                return this->getPoint()->getY() <= e1.getPoint()->getY();
+            }
+
+            return this->getPoint()->getX() < e1.getPoint()->getX();
+
+        }
+
+        bool operator>=(const Inters::Event &e1) {
+            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+                return this->getPoint()->getY() >= e1.getPoint()->getY();
+            }
+
+            return this->getPoint()->getX() > e1.getPoint()->getX();
+        }
+
 
     };
 }
