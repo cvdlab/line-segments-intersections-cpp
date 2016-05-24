@@ -1,7 +1,3 @@
-//
-// Created by danilo on 12/05/16.
-//
-
 #include "../../headers/Utils/Event.h"
 
 /** Define an operator for events **/

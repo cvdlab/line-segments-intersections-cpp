@@ -42,15 +42,15 @@ namespace Inters {
         }
 
         /** Overloading math operators **/
-        friend bool operator<(const Event &c1, const Event &c2);
+        friend bool operator<(const Event &c1);
 
-        friend bool operator>(const Event &c1, const Event &c2);
+        friend bool operator>(const Event &c1);
 
-        friend bool operator==(const Event &c1, const Event &c2);
+        friend bool operator==(const Event &c1);
 
-        friend bool operator<=(const Event &c1, const Event &c2);
+        friend bool operator<=(const Event &c1);
 
-        friend bool operator>=(const Event &c1, const Event &c2);
+        friend bool operator>=(const Event &c1);
 
     };
 }
