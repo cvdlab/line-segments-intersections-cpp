@@ -43,8 +43,15 @@ namespace Inters {
         friend std::ostream &operator<<(std::ostream &output,
                                         const Intersection &i) {
 
-            output << "Intersection{ IntersectionPoint: " << *i.getIntersectionPoint() << "\nLine 1: " <<
-            *i.getLines().first << "\nLine 2: " << *i.getLines().second << "\nisColinear: " << i.isIsColinear() << " }";
+            if (i.getIntersectionPoint() != NULL) {
+                output << "Intersection{ IntersectionPoint: " << *i.getIntersectionPoint() << "\nLine 1: " <<
+                *i.getLines().first << "\nLine 2: " << *i.getLines().second << "\nisColinear: " << i.isIsColinear() <<
+                " }";
+            } else {
+                output << "Intersection{ IntersectionPoint: NULL" << "\nLine 1: " <<
+                *i.getLines().first << "\nLine 2: " << *i.getLines().second << "\nisColinear: " << i.isIsColinear() <<
+                " }";
+            }
             return output;
         }
 
