@@ -6,23 +6,41 @@
 
 /** Define an operator for events **/
 
-bool operator<(const Inters::Event &e1, const Inters::Event &e2) {
+bool operator<(const Inters::Event &e1) {
 
-    return e1.getPoint() < e2.getPoint();
+    if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+        return this->getPoint()->getY() < e1.getPoint()->getY();
+    }
+
+    return this->getPoint()->getX() < e1.getPoint()->getX();
 };
 
-bool operator>(const Inters::Event &e1, const Inters::Event &e2) {
-    return e1.getPoint() > e2.getPoint();
+bool operator>(const Inters::Event &e1) {
+    if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+        return this->getPoint()->getY() > e1.getPoint()->getY();
+    }
+
+    return this->getPoint()->getX() > e1.getPoint()->getX();
+
 }
 
-bool operator==(const Inters::Event &e1, const Inters::Event &e2) {
-    return e1.getPoint() == e2.getPoint();
+bool operator==(const Inters::Event &e1) {
+    return this->getPoint() == e1.getPoint();
 }
 
-bool operator<=(const Inters::Event &e1, const Inters::Event &e2) {
-    return e1.getPoint() <= e2.getPoint();
+bool operator<=(const Inters::Event &e1) {
+    if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+        return this->getPoint()->getY() <= e1.getPoint()->getY();
+    }
+
+    return this->getPoint()->getX() < e1.getPoint()->getX();
+
 }
 
-bool operator>=(const Inters::Event &e1, const Inters::Event &e2) {
-    return e1.getPoint() <= e2.getPoint();
+bool operator>=(const Inters::Event &e1) {
+    if (this->getPoint()->getX() == e1.getPoint()->getX()) {
+        return this->getPoint()->getY() >= e1.getPoint()->getY();
+    }
+
+    return this->getPoint()->getX() > e1.getPoint()->getX();
 }
