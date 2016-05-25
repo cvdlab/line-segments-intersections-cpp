@@ -74,8 +74,10 @@ Inters::Point *Inters::LineUtils::findVerticalIntersection(Line *l1, double vert
     Point *intersectionPoint = new Point(verticalLineX,
                                          deltaY / deltaX * (verticalLineX - l1->getV0()->getX()) + l1->getV0()->getY());
 
-    double epsilon = 0.01;
+
     /* Now I have to check if the intersection is valid (see http://stackoverflow.com/a/328122) */
+
+    double epsilon = 0.001;
     double crossProduct =
             (intersectionPoint->getY() - l1->getV0()->getY()) * (l1->getV1()->getX() - l1->getV0()->getX()) -
             (intersectionPoint->getX() - l1->getV0()->getX()) * (l1->getV1()->getY() - l1->getV0()->getY());
