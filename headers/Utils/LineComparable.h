@@ -8,7 +8,7 @@ class LineComparable : public Comparable<Inters::Line> {
 public:
     LineComparable(Inters::Line line) : Comparable<Inters::Line>(line) { };
 
-    cmp_t Compare(Inters::Line line) { Comparable<Inters::Line>::Compare(line); };
+    cmp_t Compare(Inters::Line line) { return Comparable<Inters::Line>::Compare(line); };
 
     cmp_t Compare(Inters::Line line, double sweepLine);
 
