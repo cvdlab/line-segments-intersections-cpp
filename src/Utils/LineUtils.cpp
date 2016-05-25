@@ -3,6 +3,8 @@
 //
 
 #include <cstdlib>
+#include <cmath>
+
 #include "../../headers/Utils/LineUtils.h"
 #include "../../headers/Utils/Intersection.h"
 
@@ -58,8 +60,46 @@ double Inters::LineUtils::determinant(double m1, double m2, double m3, double m4
 
 
 /** Find the intersection between a segment and a vertical line **/
-Inters::Point *Inters::LineUtils::findVerticalIntersection(Line l1, double verticalLineX) {
-    double deltaY = l1.getV1()->getY() - l1.getV0()->getY();
-    double deltaX = l1.getV1()->getX() - l1.getV0()->getX();
-    return new Point(verticalLineX, deltaY / deltaX * (verticalLineX - l1.getV0()->getX()) + l1.getV0()->getY());
+Inters::Point *Inters::LineUtils::findVerticalIntersection(Line *l1, double verticalLineX) {
+
+    /* Check if l1 is vertical */
+    if (l1->getV0()->getX() == l1->getV1()->getX()) {
+        if (l1->getV0()->getX() == verticalLineX) {
+            return l1->getV0();
+        }
+        return NULL;
+    }
+
+    double deltaY = l1->getV1()->getY() - l1->getV0()->getY();
+    double deltaX = l1->getV1()->getX() - l1->getV0()->getX();
+    Point *intersectionPoint = new Point(verticalLineX,
+                                         deltaY / deltaX * (verticalLineX - l1->getV0()->getX()) + l1->getV0()->getY());
+
+    double epsilon = 0.01;
+    /* Now I have to check if the intersection is valid (see http://stackoverflow.com/a/328122) */
+    double crossProduct =
+            (intersectionPoint->getY() - l1->getV0()->getY()) * (l1->getV1()->getX() - l1->getV0()->getX()) -
+            (intersectionPoint->getX() - l1->getV0()->getX()) * (l1->getV1()->getY() - l1->getV0()->getY());
+
+    if (std::abs(crossProduct) > epsilon || crossProduct != 0) {
+        return NULL;
+    }
+
+    double dotProduct =
+            (intersectionPoint->getX() - l1->getV0()->getX()) * (l1->getV1()->getX() - l1->getV0()->getX()) +
+            (intersectionPoint->getY() - l1->getV0()->getY()) * (l1->getV1()->getY() - l1->getV0()->getY());
+
+    if (dotProduct < 0) {
+        return NULL;
+    }
+
+    double squaredLength = (l1->getV1()->getX() - l1->getV0()->getX()) * (l1->getV1()->getX() - l1->getV0()->getX()) +
+                           (l1->getV1()->getY() - l1->getV0()->getY()) * (l1->getV1()->getY() - l1->getV0()->getY());
+
+    if (dotProduct > squaredLength) {
+        return NULL;
+    }
+
+    return intersectionPoint;
+
 }

@@ -18,7 +18,7 @@ namespace Inters {
 
         double determinant(double m1, double m2, double m3, double m4);
 
-        Point *findVerticalIntersection(Line l1, double verticalLineX);
+        Point *findVerticalIntersection(Line *l1, double verticalLineX);
     };
 }
 
