@@ -3,14 +3,14 @@
 
 #include "../../headers/Utils/Comparable.h"
 
-class LineComparable : public Comparable<Inters::Line> {
+class LineComparable : public Comparable<Inters::Line*> {
 
 public:
-    LineComparable(Inters::Line line) : Comparable<Inters::Line>(line) { };
+    LineComparable(Inters::Line *line) : Comparable<Inters::Line*>(line) { };
 
-    cmp_t Compare(Inters::Line line) { return Comparable<Inters::Line>::Compare(line); };
+    cmp_t Compare(Inters::Line *line) { return Comparable<Inters::Line*>::Compare(line); };
 
-    cmp_t Compare(Inters::Line line, double sweepLine);
+    cmp_t Compare(Inters::Line *line, double sweepLine);
 
 };
 
