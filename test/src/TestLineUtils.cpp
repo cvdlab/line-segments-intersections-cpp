@@ -87,3 +87,57 @@ TEST_CASE("Test find intersection", "[LineUtils]") {
 
     }
 }
+
+TEST_CASE("Test vertical intersection", "[LineUtils]") {
+
+    Inters::Point *p1, *p2, *expectedIntersectionPoint, *intersectionPoint;
+
+    double sweepLine;
+    Inters::Line *l1;
+
+    Inters::LineUtils lineUtils;
+
+    SECTION("l1 has an intersection in the middle") {
+        p1 = new Inters::Point(0, 5);
+        p2 = new Inters::Point(10, 5);
+
+        sweepLine = 5;
+
+        l1 = new Inters::Line(p1, p2);
+
+        expectedIntersectionPoint = new Inters::Point(5, 5);
+
+        intersectionPoint = lineUtils.findVerticalIntersection(l1, sweepLine);
+
+        REQUIRE(*intersectionPoint == *expectedIntersectionPoint);
+    }
+
+    SECTION("l1 and the sweepline do not intersect") {
+        p1 = new Inters::Point(0, 5);
+        p2 = new Inters::Point(10, 5);
+
+        sweepLine = 25;
+
+        l1 = new Inters::Line(p1, p2);
+
+        intersectionPoint = lineUtils.findVerticalIntersection(l1, sweepLine);
+
+        REQUIRE(intersectionPoint == NULL);
+    }
+
+    SECTION("l1 is vertical") {
+        p1 = new Inters::Point(5, 0);
+        p2 = new Inters::Point(5, 10);
+
+        sweepLine = 5;
+
+        l1 = new Inters::Line(p1, p2);
+
+        expectedIntersectionPoint = new Inters::Point(5, 0);
+
+        intersectionPoint = lineUtils.findVerticalIntersection(l1, sweepLine);
+
+        REQUIRE(*intersectionPoint == *expectedIntersectionPoint);
+    }
+}
+

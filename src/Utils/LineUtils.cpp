@@ -6,7 +6,6 @@
 #include <cmath>
 
 #include "../../headers/Utils/LineUtils.h"
-#include "../../headers/Utils/Intersection.h"
 
 /* Find the intersection point between two lines */
 Inters::Intersection *Inters::LineUtils::findIntersection(Line *l1, Line *l2) {
