@@ -4,8 +4,8 @@ project(IntersCpp)
 #SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 include_directories(include)
-file(GLOB SOURCE_FILES "src/*" "src/Utils/LineUtils.cpp")
-#file(GLOB SOURCE_FILES "src/*" "src/Utils/*")
+#file(GLOB SOURCE_FILES "src/*" "src/Utils/LineUtils.cpp")
+file(GLOB SOURCE_FILES "src/*" "src/Utils/*")
 file(GLOB SOURCE_TEST_FILES "test/src/*")
 
 # All code is taken from http://geomalgorithms.com/a09-_intersect-3.html

@@ -2,7 +2,7 @@
 #include "../../headers/Utils/Comparable.h"
 #include "../../headers/Utils/Line.h"
 
-class LineComparable : public Comparable {
+class LineComparable : public Comparable<Inters::Line> {
 
 public:
     LineComparable(Inters::Line line) : Comparable<Inters::Line>(line) { };
@@ -18,7 +18,7 @@ public:
             Inters::LineUtils lineUtils;
 
             Inters::Line myLine = Key();
-            Inters::Point *intersMyLine = lineUtils.findVerticalIntersection(myLine, sweepLine);
+            Inters::Point *intersMyLine = lineUtils.findVerticalIntersection(&myLine, sweepLine);
 
             return (line.getV0()->getY() == intersMyLine->getY()) ? EQ_CMP
                                                                   : ((line.getV0()->getY() < intersMyLine->getY())
