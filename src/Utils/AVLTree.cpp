@@ -4,37 +4,36 @@
 // that represents the root-node of and AvlTree. Most of the member
 // functions simply delegate to the root AvlNode.
 
-
 // Search, Insert, Delete, and Check
-template<class KeyType>
-AvlNode<KeyType> *AVLtree<KeyType>::search(KeyType key, cmp_t cmp) {
-    return AvlNode<KeyType>::Search(key, root, cmp);
+template<class T>
+AvlNode<Inters::Line *> *AVLtree::search(Inters::Line *key, cmp_t cmp) {
+    return AvlNode<Inters::Line *>::Search(key, root, cmp);
 }
 
-template<class KeyType>
-AvlNode<KeyType> *AVLtree<KeyType>::insert(LineComparable *item) {
-    return AvlNode<KeyType>::Insert(item, root);
+template<class T>
+AvlNode<Inters::Line *> *AVLtree::insert(LineComparable *item) {
+    return AvlNode<Inters::Line *>::Insert(item, root);
 }
 
-template<class KeyType>
-LineComparable *AVLtree<KeyType>::remove(KeyType key, cmp_t cmp) {
-    return AvlNode<KeyType>::Delete(key, root, cmp);
+template<class T>
+LineComparable *AVLtree::remove(Inters::Line *key, cmp_t cmp) {
+    return AvlNode<Inters::Line *>::Delete(key, root, cmp);
 }
 
 // As with all binary trees, a node's in-order successor is the
 // left-most child of its right subtree, and a node's in-order predecessor
 // is the right-most child of its left subtree.
-template<class KeyType>
-AvlNode<KeyType> *AVLtree<KeyType>::next(AvlNode<KeyType> *node) {
-    AvlNode<KeyType> *q, *p = node->Subtree(AvlNode<KeyType>::RIGHT);
+template<class T>
+AvlNode<Inters::Line *> *AVLtree::next(AvlNode<Inters::Line *> *node) {
+    AvlNode<Inters::Line *> *q, *p = node->Subtree(AvlNode<Inters::Line *>::RIGHT);
     if (p) {
-        while (p->Subtree(AvlNode<KeyType>::LEFT)) p = p->Subtree(AvlNode<KeyType>::LEFT);
+        while (p->Subtree(AvlNode<Inters::Line *>::LEFT)) p = p->Subtree(AvlNode<Inters::Line *>::LEFT);
         return p;
     } else {
         // find parent, check if node is on left subtree
         q = node;
         p = node->Parent(root);
-        while (p && (q == p->Subtree(AvlNode<KeyType>::RIGHT))) {
+        while (p && (q == p->Subtree(AvlNode<Inters::Line *>::RIGHT))) {
             q = p;
             p = p->Parent(root);
         }
@@ -43,17 +42,17 @@ AvlNode<KeyType> *AVLtree<KeyType>::next(AvlNode<KeyType> *node) {
     }
 }
 
-template<class KeyType>
-AvlNode<KeyType> *AVLtree<KeyType>::prev(AvlNode<KeyType> *node) {
-    AvlNode<KeyType> *q, *p = node->Subtree(AvlNode<KeyType>::LEFT);
+template<class T>
+AvlNode<Inters::Line *> *AVLtree::prev(AvlNode<Inters::Line *> *node) {
+    AvlNode<Inters::Line *> *q, *p = node->Subtree(AvlNode<Inters::Line *>::LEFT);
     if (p) {
-        while (p->Subtree(AvlNode<KeyType>::RIGHT)) p = p->Subtree(AvlNode<KeyType>::RIGHT);
+        while (p->Subtree(AvlNode<Inters::Line *>::RIGHT)) p = p->Subtree(AvlNode<Inters::Line *>::RIGHT);
         return p;
     } else {
         // find parent, check if node is on left subtree
         q = node;
         p = node->Parent(root);
-        while (p && (q == p->Subtree(AvlNode<KeyType>::LEFT))) {
+        while (p && (q == p->Subtree(AvlNode<Inters::Line *>::LEFT))) {
             q = p;
             p = p->Parent(root);
         }
@@ -62,7 +61,7 @@ AvlNode<KeyType> *AVLtree<KeyType>::prev(AvlNode<KeyType> *node) {
     }
 }
 
-template<class KeyType>
-int AVLtree<KeyType>::check() {
+template<class T>
+int AVLtree::check() {
     return (root) ? root->Check() : 1;
 }

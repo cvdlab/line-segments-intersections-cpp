@@ -15,7 +15,7 @@
 namespace Inters {
     class SweepLine {
         std::list<Line> lines; //List of lines
-        AVLtree<Line> Tree;      // balanced binary tree
+        AVLtree Tree;      // balanced binary tree
         std::list<std::pair<std::pair<Line, Line>, Point> > intersections;
 
     public:

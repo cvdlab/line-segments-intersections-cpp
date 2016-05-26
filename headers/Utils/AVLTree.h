@@ -8,51 +8,40 @@
 #include "AVLNode.h"
 
 /* AVL tree */
-template<class KeyType>
 class AVLtree {
 
 private:
 
-    AvlNode<KeyType> *root;
+    AvlNode<Inters::Line *> *root;
     double currentSweepPointX;
-
-    AvlNode<KeyType> *rotateLeft(AvlNode<KeyType> *a);
-
-    AvlNode<KeyType> *rotateRight(AvlNode<KeyType> *a);
-
-    AvlNode<KeyType> *rotateLeftThenRight(AvlNode<KeyType> *n);
-
-    AvlNode<KeyType> *rotateRightThenLeft(AvlNode<KeyType> *n);
-
-    void rebalance(AvlNode<KeyType> *n);
-
-    int height(AvlNode<KeyType> *n);
-
-    void setBalance(AvlNode<KeyType> *n);
 
 public:
 
-    AVLtree(void);
+    AVLtree() : root(NULL) { };
 
-    ~AVLtree(void);
+    ~AVLtree() { if (root) delete root; }
 
     // See if the tree is empty
     int IsEmpty() const {
         return (root == NULL);
     }
 
+    template<class T>
+    AvlNode<Inters::Line *> *insert(LineComparable *item);
 
-    AvlNode<KeyType> *insert(LineComparable *item);
+    template<class T>
+    LineComparable *remove(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
-    LineComparable *remove(KeyType key, cmp_t cmp = EQ_CMP);
+    template<class T>
+    AvlNode<Inters::Line *> *next(AvlNode<Inters::Line *> *node);
 
+    template<class T>
+    AvlNode<Inters::Line *> *prev(AvlNode<Inters::Line *> *node);
 
-    AvlNode<KeyType> *next(AvlNode<KeyType> *node);
+    template<class T>
+    AvlNode<Inters::Line *> *search(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
-    AvlNode<KeyType> *prev(AvlNode<KeyType> *node);
-
-    AvlNode<KeyType> *search(KeyType key, cmp_t cmp = EQ_CMP);
-
+    template<class T>
     int check();
 
     void setCurrentSweepPointX(double currentSweepPointX) {
