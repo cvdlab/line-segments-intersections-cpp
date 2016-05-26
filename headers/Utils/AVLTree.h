@@ -8,50 +8,57 @@
 #include "AVLNode.h"
 
 /* AVL tree */
-template<class T>
+template<class KeyType>
 class AVLtree {
-public:
 
+private:
+
+    AvlNode<KeyType> *root;
+    double currentSweepPointX;
+
+    AvlNode<KeyType> *rotateLeft(AvlNode<KeyType> *a);
+
+    AvlNode<KeyType> *rotateRight(AvlNode<KeyType> *a);
+
+    AvlNode<KeyType> *rotateLeftThenRight(AvlNode<KeyType> *n);
+
+    AvlNode<KeyType> *rotateRightThenLeft(AvlNode<KeyType> *n);
+
+    void rebalance(AvlNode<KeyType> *n);
+
+    int height(AvlNode<KeyType> *n);
+
+    void setBalance(AvlNode<KeyType> *n);
+
+public:
 
     AVLtree(void);
 
     ~AVLtree(void);
 
-    AvlNode<T> *insert(T key);
+    // See if the tree is empty
+    int IsEmpty() const {
+        return (root == NULL);
+    }
 
-    AvlNode<T> *remove(T key);
+
+    AvlNode<KeyType> *insert(LineComparable *item);
+
+    LineComparable *remove(KeyType key, cmp_t cmp = EQ_CMP);
 
 
-    AvlNode<T> *next(AvlNode<T> *node);
+    AvlNode<KeyType> *next(AvlNode<KeyType> *node);
 
-    AvlNode<T> *prev(AvlNode<T> *node);
+    AvlNode<KeyType> *prev(AvlNode<KeyType> *node);
 
-    AvlNode<T> *search(T key);
+    AvlNode<KeyType> *search(KeyType key, cmp_t cmp = EQ_CMP);
+
+    int check();
 
     void setCurrentSweepPointX(double currentSweepPointX) {
         this->currentSweepPointX = currentSweepPointX;
     }
 
-private:
-
-    double currentSweepPointX;
-
-
-    AvlNode<T> *root;
-
-    AvlNode<T> *rotateLeft(AvlNode<T> *a);
-
-    AvlNode<T> *rotateRight(AvlNode<T> *a);
-
-    AvlNode<T> *rotateLeftThenRight(AvlNode<T> *n);
-
-    AvlNode<T> *rotateRightThenLeft(AvlNode<T> *n);
-
-    void rebalance(AvlNode<T> *n);
-
-    int height(AvlNode<T> *n);
-
-    void setBalance(AvlNode<T> *n);
 };
 
 

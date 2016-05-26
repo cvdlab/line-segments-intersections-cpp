@@ -141,22 +141,21 @@ AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, 
 
 template<class KeyType>
 AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                           AvlNode<KeyType> *&root) {
+                                           AvlNode<KeyType> *root) {
     int change;
     return Insert(item, root, change);
 }
 
 template<class KeyType>
-LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp) {
+LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *root, cmp_t cmp) {
     int change;
     return Delete(key, root, change, cmp);
 }
 
-
 template<class KeyType>
 AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                           AvlNode<KeyType> *&root,
-                                           int &change) {
+                                                  AvlNode<KeyType> *&root,
+                                                  int &change) {
     // See if the tree is empty
     if (root == NULL) {
         // Insert new node here
@@ -196,12 +195,11 @@ AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
     return found;
 }
 
-
 template<class KeyType>
 LineComparable *AvlNode<KeyType>::Delete(KeyType key,
-                                              AvlNode<KeyType> *&root,
-                                              int &change,
-                                              cmp_t cmp) {
+                                         AvlNode<KeyType> *&root,
+                                         int &change,
+                                         cmp_t cmp) {
     // See if the tree is empty
     if (root == NULL) {
         // Key not found

@@ -84,11 +84,11 @@ public:
 
     // Insert the given key, return a pointer to the node if it was inserted,
     // otherwise return NULL
-    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *&root);
+    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *root);
 
     // Delete the given key from the tree. Return the corresponding
     // node, or return NULL if it was not found.
-    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp = EQ_CMP);
+    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *root, cmp_t cmp = EQ_CMP);
 
     // Verification
 
