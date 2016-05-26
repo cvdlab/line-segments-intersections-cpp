@@ -66,7 +66,7 @@ public:
     //
     AvlNode *Subtree(dir_t dir) const { return mySubtree[dir]; }
 
-    AvlNode<KeyType> *Parent(AvlNode<KeyType> *);
+    AvlNode<KeyType> *Parent(AvlNode<KeyType> *, double currentSweepPointX);
 
     // ----- Search/Insert/Delete
     //
@@ -80,15 +80,15 @@ public:
 
     // Look for the given key, return NULL if not found,
     // otherwise return the item's address.
-    static AvlNode<KeyType> *Search(KeyType key, AvlNode<KeyType> *root, cmp_t cmp = EQ_CMP);
+    static AvlNode<KeyType> *Search(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
 
     // Insert the given key, return a pointer to the node if it was inserted,
     // otherwise return NULL
-    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *root);
+    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *root, double currentSweepPointX);
 
     // Delete the given key from the tree. Return the corresponding
     // node, or return NULL if it was not found.
-    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *root, cmp_t cmp = EQ_CMP);
+    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
 
     // Verification
 
@@ -97,7 +97,7 @@ public:
 
     // Verify this tree is a valid AVL tree, return TRUE if it is,
     // return FALSE otherwise
-    int Check() const;
+    int Check(double currentSweepPointX) const;
 
     // If you want to provide your own allocation scheme than simply
     // #define the preprocessor manifest constant named CUSTOM_ALLOCATE
@@ -153,7 +153,7 @@ private:
     // of the insertion (otherwise "change" will be 0).
     static AvlNode<KeyType> *Insert(LineComparable *item,
                                     AvlNode<KeyType> *&root,
-                                    int &change);
+                                    int &change, double currentSweepPointX);
 
     // Delete the given key from the given tree. Return NULL if the
     // key is not found in the tree. Otherwise return a pointer to the
@@ -161,9 +161,10 @@ private:
     // parameter will be '1' if the tree height changed as a result
     // of the deletion (otherwise "change" will be 0).
     static LineComparable *Delete(KeyType key,
-                                       AvlNode<KeyType> *&root,
-                                       int &change,
-                                       cmp_t cmp = EQ_CMP);
+                                  AvlNode<KeyType> *&root,
+                                  int &change,
+                                  double currentSweepPointX,
+                                  cmp_t cmp = EQ_CMP);
 
     // Routines for rebalancing and rotating subtrees
 
@@ -186,7 +187,7 @@ private:
     //   EQ_CMP if the keys are equivalent
     //   MIN_CMP if this key is less than the item's key
     //   MAX_CMP if this key is greater than item's key
-    cmp_t Compare(KeyType key, cmp_t cmp = EQ_CMP) const;
+    cmp_t Compare(KeyType key, double currentSweepPointX, cmp_t cmp = EQ_CMP) const;
 
 private:
     // Disallow copying and assignment

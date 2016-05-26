@@ -7,17 +7,17 @@
 // Search, Insert, Delete, and Check
 template<class T>
 AvlNode<Inters::Line *> *AVLtree::search(Inters::Line *key, cmp_t cmp) {
-    return AvlNode<Inters::Line *>::Search(key, root, cmp);
+    return AvlNode<Inters::Line *>::Search(key, root, currentSweepPointX, cmp);
 }
 
 template<class T>
 AvlNode<Inters::Line *> *AVLtree::insert(LineComparable *item) {
-    return AvlNode<Inters::Line *>::Insert(item, root);
+    return AvlNode<Inters::Line *>::Insert(item, root, currentSweepPointX);
 }
 
 template<class T>
 LineComparable *AVLtree::remove(Inters::Line *key, cmp_t cmp) {
-    return AvlNode<Inters::Line *>::Delete(key, root, cmp);
+    return AvlNode<Inters::Line *>::Delete(key, root, currentSweepPointX, cmp);
 }
 
 // As with all binary trees, a node's in-order successor is the
@@ -32,10 +32,10 @@ AvlNode<Inters::Line *> *AVLtree::next(AvlNode<Inters::Line *> *node) {
     } else {
         // find parent, check if node is on left subtree
         q = node;
-        p = node->Parent(root);
+        p = node->Parent(root, currentSweepPointX);
         while (p && (q == p->Subtree(AvlNode<Inters::Line *>::RIGHT))) {
             q = p;
-            p = p->Parent(root);
+            p = p->Parent(root, currentSweepPointX);
         }
 
         return p;
@@ -51,10 +51,10 @@ AvlNode<Inters::Line *> *AVLtree::prev(AvlNode<Inters::Line *> *node) {
     } else {
         // find parent, check if node is on left subtree
         q = node;
-        p = node->Parent(root);
+        p = node->Parent(root, currentSweepPointX);
         while (p && (q == p->Subtree(AvlNode<Inters::Line *>::LEFT))) {
             q = p;
-            p = p->Parent(root);
+            p = p->Parent(root, currentSweepPointX);
         }
 
         return p;
@@ -63,5 +63,5 @@ AvlNode<Inters::Line *> *AVLtree::prev(AvlNode<Inters::Line *> *node) {
 
 template<class T>
 int AVLtree::check() {
-    return (root) ? root->Check() : 1;
+    return (root) ? root->Check(currentSweepPointX) : 1;
 }

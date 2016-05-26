@@ -95,11 +95,11 @@ int AvlNode<KeyType>::ReBalance(AvlNode<KeyType> *&root) {
 // ------------------------------------------------------- Comparisons
 
 template<class KeyType>
-cmp_t AvlNode<KeyType>::Compare(KeyType key, cmp_t cmp) const {
+cmp_t AvlNode<KeyType>::Compare(KeyType key, double currentSweepPointX, cmp_t cmp) const {
     switch (cmp) {
         default:
         case EQ_CMP :  // Standard comparison
-            return myData->Compare(key);
+            return myData->Compare(key, currentSweepPointX);
 
         case MIN_CMP :  // Find the minimal element in this tree
             return (mySubtree[LEFT] == NULL) ? EQ_CMP : MIN_CMP;
@@ -110,7 +110,7 @@ cmp_t AvlNode<KeyType>::Compare(KeyType key, cmp_t cmp) const {
 }
 
 template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot) {
+AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot, double currentSweepPointX) {
     if (this == myRoot) return 0;
 
     AvlNode<KeyType> *p = myRoot;
@@ -118,7 +118,7 @@ AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot) {
         if (this == p->Subtree(AvlNode<KeyType>::LEFT)) return p;
         if (this == p->Subtree(AvlNode<KeyType>::RIGHT)) return p;
 
-        cmp_t result = p->Compare(this->Key());
+        cmp_t result = p->Compare(this->Key(), currentSweepPointX);
         if (result == MIN_CMP)
             p = p->Subtree(AvlNode<KeyType>::LEFT);
         else
@@ -131,9 +131,9 @@ AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot) {
 // ------------------------------------------------------- Search/Insert/Delete
 
 template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, cmp_t cmp) {
+AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp) {
     cmp_t result;
-    while (root && (result = root->Compare(key, cmp))) {
+    while (root && (result = root->Compare(key, currentSweepPointX, cmp))) {
         root = root->mySubtree[(result < 0) ? LEFT : RIGHT];
     }
     return (root) ? root : NULL;
@@ -141,21 +141,21 @@ AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, 
 
 template<class KeyType>
 AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                           AvlNode<KeyType> *root) {
+                                           AvlNode<KeyType> *root, double currentSweepPointX) {
     int change;
-    return Insert(item, root, change);
+    return Insert(item, root, change, currentSweepPointX);
 }
 
 template<class KeyType>
-LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *root, cmp_t cmp) {
+LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp) {
     int change;
-    return Delete(key, root, change, cmp);
+    return Delete(key, root, change, currentSweepPointX, cmp);
 }
 
 template<class KeyType>
 AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                                  AvlNode<KeyType> *&root,
-                                                  int &change) {
+                                           AvlNode<KeyType> *&root,
+                                           int &change, double currentSweepPointX) {
     // See if the tree is empty
     if (root == NULL) {
         // Insert new node here
@@ -169,12 +169,12 @@ AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
     int increase = 0;
 
     // Compare items and determine which direction to search
-    cmp_t result = root->Compare(item->Key());
+    cmp_t result = root->Compare(item->Key(), currentSweepPointX, EQ_CMP);
     dir_t dir = (result == MIN_CMP) ? LEFT : RIGHT;
 
     if (result != EQ_CMP) {
         // Insert into "dir" subtree
-        found = Insert(item, root->mySubtree[dir], change);
+        found = Insert(item, root->mySubtree[dir], change, currentSweepPointX);
         if (!found) return NULL;     // already here - don't insert
         increase = result * change;  // set balance factor increment
     } else {   // key already in tree at this node
@@ -199,6 +199,7 @@ template<class KeyType>
 LineComparable *AvlNode<KeyType>::Delete(KeyType key,
                                          AvlNode<KeyType> *&root,
                                          int &change,
+                                         double currentSweepPointX,
                                          cmp_t cmp) {
     // See if the tree is empty
     if (root == NULL) {
@@ -212,7 +213,7 @@ LineComparable *AvlNode<KeyType>::Delete(KeyType key,
     int decrease = 0;
 
     // Compare items and determine which direction to search
-    cmp_t result = root->Compare(key, cmp);
+    cmp_t result = root->Compare(key, currentSweepPointX, cmp);
     dir_t dir = (result == MIN_CMP) ? LEFT : RIGHT;
 
     if (result != EQ_CMP) {
@@ -300,12 +301,12 @@ AvlNode<KeyType>::Height() const {
 
 template<class KeyType>
 int
-AvlNode<KeyType>::Check() const {
+AvlNode<KeyType>::Check(double currentSweepPointX) const {
     int valid = 1;
 
     // First verify that subtrees are correct
-    if (mySubtree[LEFT]) valid *= mySubtree[LEFT]->Check();
-    if (mySubtree[RIGHT]) valid *= mySubtree[RIGHT]->Check();
+    if (mySubtree[LEFT]) valid *= mySubtree[LEFT]->Check(currentSweepPointX);
+    if (mySubtree[RIGHT]) valid *= mySubtree[RIGHT]->Check(currentSweepPointX);
 
     // Now get the height of each subtree
     int leftHeight = (mySubtree[LEFT]) ? mySubtree[LEFT]->Height() : 0;
@@ -330,14 +331,14 @@ AvlNode<KeyType>::Check() const {
     // Verify that search-tree property is satisfied
     if ((mySubtree[LEFT])
         &&
-        (mySubtree[LEFT]->Compare(Key()) == MIN_CMP)) {
+        (mySubtree[LEFT]->Compare(Key(), currentSweepPointX) == MIN_CMP)) {
         valid = 0;
         cerr << "Node " << Key() << " is *smaller* than lefts subtree"
         << mySubtree[LEFT]->Key() << endl;
     }
     if ((mySubtree[RIGHT])
         &&
-        (mySubtree[RIGHT]->Compare(Key()) == MAX_CMP)) {
+        (mySubtree[RIGHT]->Compare(Key(), currentSweepPointX) == MAX_CMP)) {
         valid = 0;
         cerr << "Node " << Key() << " is *greater* than rights subtree"
         << mySubtree[RIGHT]->Key() << endl;
