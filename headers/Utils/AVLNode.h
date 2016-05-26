@@ -15,7 +15,7 @@
 
 #include <stddef.h>
 #include <iostream>
-#include "Comparable.h"
+#include "LineComparable.h"
 
 using namespace std;
 
@@ -42,14 +42,14 @@ public:
 
     // ----- Constructors and destructors:
 
-    AvlNode(Comparable<KeyType> *item = NULL);
+    AvlNode(LineComparable *item = NULL);
 
     virtual ~AvlNode(void);
 
     // ----- Query attributes:
 
     // Get this node's data
-    Comparable<KeyType> *Data() const { return myData; }
+    LineComparable *Data() const { return myData; }
 
     // Get this node's key field
     KeyType Key() const { return myData->Key(); }
@@ -84,11 +84,11 @@ public:
 
     // Insert the given key, return a pointer to the node if it was inserted,
     // otherwise return NULL
-    static AvlNode<KeyType> *Insert(Comparable<KeyType> *item, AvlNode<KeyType> *&root);
+    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *&root);
 
     // Delete the given key from the tree. Return the corresponding
     // node, or return NULL if it was not found.
-    static Comparable<KeyType> *Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp = EQ_CMP);
+    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp = EQ_CMP);
 
     // Verification
 
@@ -133,7 +133,7 @@ private:
 
     // ----- Private data
 
-    Comparable<KeyType> *myData;  // Data field
+    LineComparable *myData;  // Data field
     AvlNode<KeyType> *mySubtree[MAX_SUBTREES];   // Pointers to subtrees
     short myBal;   // Balance factor
 
@@ -151,7 +151,7 @@ private:
     // the key was successfully inserted.  Upon return, the "change"
     // parameter will be '1' if the tree height changed as a result
     // of the insertion (otherwise "change" will be 0).
-    static AvlNode<KeyType> *Insert(Comparable<KeyType> *item,
+    static AvlNode<KeyType> *Insert(LineComparable *item,
                                     AvlNode<KeyType> *&root,
                                     int &change);
 
@@ -160,7 +160,7 @@ private:
     // node that was removed from the tree.  Upon return, the "change"
     // parameter will be '1' if the tree height changed as a result
     // of the deletion (otherwise "change" will be 0).
-    static Comparable<KeyType> *Delete(KeyType key,
+    static LineComparable *Delete(KeyType key,
                                        AvlNode<KeyType> *&root,
                                        int &change,
                                        cmp_t cmp = EQ_CMP);

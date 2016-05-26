@@ -1,7 +1,7 @@
 #include "../../headers/Utils/AVLNode.h"
 
 template<class KeyType>
-AvlNode<KeyType>::AvlNode(Comparable<KeyType> *item)
+AvlNode<KeyType>::AvlNode(LineComparable *item)
         : myData(item), myBal(0) {
     Reset();
 }
@@ -140,21 +140,21 @@ AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, 
 }
 
 template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Insert(Comparable<KeyType> *item,
+AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
                                            AvlNode<KeyType> *&root) {
     int change;
     return Insert(item, root, change);
 }
 
 template<class KeyType>
-Comparable<KeyType> *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp) {
+LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *&root, cmp_t cmp) {
     int change;
     return Delete(key, root, change, cmp);
 }
 
 
 template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Insert(Comparable<KeyType> *item,
+AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
                                            AvlNode<KeyType> *&root,
                                            int &change) {
     // See if the tree is empty
@@ -198,7 +198,7 @@ AvlNode<KeyType> *AvlNode<KeyType>::Insert(Comparable<KeyType> *item,
 
 
 template<class KeyType>
-Comparable<KeyType> *AvlNode<KeyType>::Delete(KeyType key,
+LineComparable *AvlNode<KeyType>::Delete(KeyType key,
                                               AvlNode<KeyType> *&root,
                                               int &change,
                                               cmp_t cmp) {
@@ -210,7 +210,7 @@ Comparable<KeyType> *AvlNode<KeyType>::Delete(KeyType key,
     }
 
     // Initialize
-    Comparable<KeyType> *found = NULL;
+    LineComparable *found = NULL;
     int decrease = 0;
 
     // Compare items and determine which direction to search
