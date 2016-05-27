@@ -10,8 +10,9 @@ AvlNode *AVLTree::search(Inters::Line *key, cmp_t cmp) {
 }
 
 
-AvlNode *AVLTree::insert(LineComparable *item) {
-    return AvlNode::Insert(item, root, currentSweepPointX);
+AvlNode *AVLTree::insert(Inters::Line *item) {
+    LineComparable *lineComparable = new LineComparable(item);
+    return AvlNode::Insert(lineComparable, root, currentSweepPointX);
 }
 
 LineComparable *AVLTree::remove(Inters::Line *key, cmp_t cmp) {

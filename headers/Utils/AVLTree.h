@@ -26,7 +26,7 @@ public:
         return (root == NULL);
     }
 
-    AvlNode *insert(LineComparable *item);
+    AvlNode *insert(Inters::Line *item);
 
     LineComparable *remove(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
