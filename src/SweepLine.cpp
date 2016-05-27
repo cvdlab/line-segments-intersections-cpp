@@ -3,6 +3,14 @@
 //
 
 #include "../headers/SweepLine.h"
+#include <algorithm>
+
+/** It handles a single event of the queue **/
+void Inters::SweepLine::handleEvent(Event *E) {
+    add(E);
+    remove(E);
+    swapLines(E);
+}
 
 void Inters::SweepLine::add(Event *E) {
 
@@ -16,8 +24,7 @@ void Inters::SweepLine::add(Event *E) {
 
     std::list<Line *>::const_iterator iterator;
     for (iterator = left.begin(); iterator != left.end(); ++iterator) {
-        LineComparable *lineComparable = new LineComparable(*iterator);
-        AvlNode *insertedLine = this->Tree.insert(lineComparable);
+        AvlNode *insertedLine = this->Tree.insert(*iterator);
 
         /* Now I can check for intersections */
         Line *previousLine = this->Tree.prev(insertedLine)->Key();
@@ -42,58 +49,71 @@ void Inters::SweepLine::add(Event *E) {
 
 void Inters::SweepLine::remove(Event *E) {
 
-//    double sweepLinePointX = E->getPoint()->getX();
-//    this->Tree.setCurrentSweepPointX(sweepLinePointX);
-//
-//    /* Now I have to remove all segments in rights list */
-//
-//    std::list<Line> right = E->getRights();
-//
-//    std::list<Line>::const_iterator iterator;
-//    for (iterator = right.begin(); iterator != right.end(); ++iterator) {
-//        AvlNode<Line> *removedLine = this->Tree.remove(*iterator);
-//
-//        /* Now I can check for intersections */
-//        Line previousLine = this->Tree.prev(removedLine)->Key();
-//        Line nextLine = this->Tree.next(removedLine)->Key();
-//        Line currentLine = removedLine->Key();
-//        LineUtils lineUtils;
-//        Point *intersection = lineUtils.findIntersection(&previousLine, &nextLine);
-//
-//        if (addIntersectionToList(intersection, &previousLine, &nextLine)) {
-//            /*** ADD TO QUEUE ***/
-//        }
-//    }
+    double sweepLinePointX = E->getPoint()->getX();
+    this->Tree.setCurrentSweepPointX(sweepLinePointX);
+
+    /* Now I have to remove all segments in rights list */
+
+    std::list<Line *> right = E->getRights();
+
+    std::list<Line *>::const_iterator iterator;
+    for (iterator = right.begin(); iterator != right.end(); ++iterator) {
+
+
+        AvlNode *nodeToRemove = this->Tree.search(*iterator); //Search the line we want to remove
+
+        /* Now I can check for intersections */
+        Line *previousLine = this->Tree.prev(nodeToRemove)->Key();
+        Line *nextLine = this->Tree.next(nodeToRemove)->Key();
+        LineUtils lineUtils;
+        Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
+
+        if (addIntersectionToList(intersection)) {
+            /*** ADD TO QUEUE ***/
+        }
+
+        this->Tree.remove(*iterator); // Remove the line from the tree
+    }
 }
 
 void Inters::SweepLine::swapLines(Event *E) {
-//    std::list<pair<Line *, Line *> > intersections = E->getIntersections();
-//
-//    std::list<pair<Line *, Line *> >::const_iterator iterator;
-//    for (iterator = intersections.begin(); iterator != intersections.end(); ++iterator) {
-//        pair<Line *, Line *> linesCouple = *iterator;
-//        AvlNode<Line> *firstLineNode = this->Tree.search(*linesCouple.first);
-//        AvlNode<Line> *secondLineNode = this->Tree.search(*linesCouple.second);
-//
-//        Line previousLine = this->Tree.prev(firstLineNode)->Key();
-//        Line nextLine = this->Tree.next(secondLineNode)->Key();
-//
-//        LineUtils lineUtils;
-//        Point *intersection = lineUtils.findIntersection(&previousLine, &nextLine);
-//
-//        if (addIntersectionToList(intersection, &previousLine, &nextLine)) {
-//            /*** ADD TO QUEUE ***/
-//        }
-//
-//        this->Tree.remove(*linesCouple.first);
-//        this->Tree.remove(*linesCouple.second);
-//
-//        this->Tree.insert(*linesCouple.second);
-//        this->Tree.insert(*linesCouple.first);
-//
-//    }
+    std::list<pair<Line *, Line *> > intersections = E->getIntersections();
+
+    std::list<pair<Line *, Line *> >::const_iterator iterator;
+    for (iterator = intersections.begin(); iterator != intersections.end(); ++iterator) {
+        pair<Line *, Line *> linesCouple = *iterator;
+        AvlNode *firstLineNode = this->Tree.search(linesCouple.first);
+        AvlNode *secondLineNode = this->Tree.search(linesCouple.second);
+
+        Line *previousLine = this->Tree.prev(firstLineNode)->Key();
+        Line *nextLine = this->Tree.next(secondLineNode)->Key();
+
+        LineUtils lineUtils;
+        Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
+
+        if (addIntersectionToList(intersection)) {
+            /*** ADD TO QUEUE ***/
+        }
+
+        this->Tree.remove(linesCouple.first);
+        this->Tree.remove(linesCouple.second);
+
+        this->Tree.insert(linesCouple.second);
+        this->Tree.insert(linesCouple.first);
+
+    }
 }
 
+/** Adds an intersection to the list of intersections and return false if the intersection was
+ * already there an true if it was not found before **/
 bool Inters::SweepLine::addIntersectionToList(Intersection *intersection) {
-    return true;
+
+    std::list<Intersection *>::iterator findIter = std::find(intersections.begin(), intersections.end(), intersection);
+
+    if (findIter == intersections.end()) {
+        intersections.push_back(intersection);
+        return true;
+    }
+
+    return false;
 }

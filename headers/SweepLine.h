@@ -5,11 +5,8 @@
 #ifndef INTERSCPP_SWEEPLINE_H
 #define INTERSCPP_SWEEPLINE_H
 
-#include "Utils/Point.h"
 #include "Utils/Event.h"
 #include "Utils/AVLTree.h"
-#include "Utils/Line.h"
-#include <list>
 
 // the Sweep Line itself
 namespace Inters {
