@@ -7,16 +7,21 @@
 
 #include "Utils/Event.h"
 #include "Utils/AVLTree.h"
+#include "Utils/EventQueue.h"
 
 // the Sweep Line itself
 namespace Inters {
     class SweepLine {
-        std::list<Line*> lines; //List of lines
+        std::list<Line *> lines; //List of lines
         AVLTree Tree;      // balanced binary tree
         std::list<Intersection *> intersections;
+        EventQueue eventQueue;
 
     public:
-        SweepLine(std::list<Inters::Line*> lines) : lines(lines) { }           // constructor
+
+        SweepLine(const list<Line *> &lines) {
+            this->lines = lines;
+        }
 
         ~SweepLine(void) { delete &Tree; } // destructor
 

@@ -11,7 +11,7 @@ namespace Inters {
     class EventQueue {
         std::map<Point *, Event *> eventQueue;
     public:
-        EventQueue(const std::map<Point *, Event *> &eventQueue) : eventQueue(eventQueue) { }
+        EventQueue() { }
 
         Event *getEvent();
 

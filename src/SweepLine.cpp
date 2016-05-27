@@ -33,15 +33,20 @@ void Inters::SweepLine::add(Event *E) {
         Intersection *intersectionNext = lineUtils.findIntersection(currentLine, nextLine);
 
         if (addIntersectionToList(intersectionPrev)) {
-            /*** ADD TO QUEUE ***/
-
+            std::list<pair<Line *, Line *> > couples;
+            couples.push_back(intersectionPrev->getLines());
+            std::list<Line *> rights;
+            std::list<Line *> lefts;
+            this->eventQueue.addEvent(new Event(intersectionPrev->getIntersectionPoint(), rights, lefts, couples));
         }
 
         if (addIntersectionToList(intersectionNext)) {
-            /*** ADD TO QUEUE ***/
+            std::list<pair<Line *, Line *> > couples;
+            couples.push_back(intersectionNext->getLines());
+            std::list<Line *> rights;
+            std::list<Line *> lefts;
+            this->eventQueue.addEvent(new Event(intersectionPrev->getIntersectionPoint(), rights, lefts, couples));
         }
-
-
     }
 }
 
@@ -67,7 +72,11 @@ void Inters::SweepLine::remove(Event *E) {
         Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
 
         if (addIntersectionToList(intersection)) {
-            /*** ADD TO QUEUE ***/
+            std::list<pair<Line *, Line *> > couples;
+            couples.push_back(intersection->getLines());
+            std::list<Line *> rights;
+            std::list<Line *> lefts;
+            this->eventQueue.addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
         }
 
         this->Tree.remove(*iterator); // Remove the line from the tree
@@ -90,7 +99,11 @@ void Inters::SweepLine::swapLines(Event *E) {
         Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
 
         if (addIntersectionToList(intersection)) {
-            /*** ADD TO QUEUE ***/
+            std::list<pair<Line *, Line *> > couples;
+            couples.push_back(intersection->getLines());
+            std::list<Line *> rights;
+            std::list<Line *> lefts;
+            this->eventQueue.addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
         }
 
         this->Tree.remove(linesCouple.first);
@@ -106,7 +119,8 @@ void Inters::SweepLine::swapLines(Event *E) {
  * already there an true if it was not found before **/
 bool Inters::SweepLine::addIntersectionToList(Intersection *intersection) {
 
-    std::list<Intersection *>::iterator findIter = std::find(intersections.begin(), intersections.end(), intersection);
+    std::list<Intersection *>::iterator findIter = std::find(intersections.begin(), intersections.end(),
+                                                             intersection);
 
     if (findIter == intersections.end()) {
         intersections.push_back(intersection);
