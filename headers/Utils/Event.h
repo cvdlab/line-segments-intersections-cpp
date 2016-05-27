@@ -24,6 +24,13 @@ namespace Inters {
                 lefts(lefts),
                 intersections(intersections) { }
 
+        ~Event() {
+            delete point;
+            delete rights;
+            delete lefts;
+            delete intersections;
+        }
+
         Point *getPoint() const {
             return point;
         }
