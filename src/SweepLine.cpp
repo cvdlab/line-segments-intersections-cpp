@@ -1,7 +1,3 @@
-//
-// Created by danilo on 09/05/16.
-//
-
 #include "../headers/SweepLine.h"
 #include <algorithm>
 
@@ -10,6 +6,8 @@ void Inters::SweepLine::handleEvent(Event *E) {
     add(E);
     remove(E);
     swapLines(E);
+
+    delete E;
 }
 
 void Inters::SweepLine::add(Event *E) {
