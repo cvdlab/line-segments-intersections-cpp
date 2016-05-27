@@ -5,32 +5,32 @@
 // functions simply delegate to the root AvlNode.
 
 // Search, Insert, Delete, and Check
-AvlNode<Inters::Line *> *AVLTree::search(Inters::Line *key, cmp_t cmp) {
-    return AvlNode<Inters::Line *>::Search(key, root, currentSweepPointX, cmp);
+AvlNode *AVLTree::search(Inters::Line *key, cmp_t cmp) {
+    return AvlNode::Search(key, root, currentSweepPointX, cmp);
 }
 
 
-AvlNode<Inters::Line *> *AVLTree::insert(LineComparable *item) {
-    return AvlNode<Inters::Line *>::Insert(item, root, currentSweepPointX);
+AvlNode *AVLTree::insert(LineComparable *item) {
+    return AvlNode::Insert(item, root, currentSweepPointX);
 }
 
 LineComparable *AVLTree::remove(Inters::Line *key, cmp_t cmp) {
-    return AvlNode<Inters::Line *>::Delete(key, root, currentSweepPointX, cmp);
+    return AvlNode::Delete(key, root, currentSweepPointX, cmp);
 }
 
 // As with all binary trees, a node's in-order successor is the
 // left-most child of its right subtree, and a node's in-order predecessor
 // is the right-most child of its left subtree.
-AvlNode<Inters::Line *> *AVLTree::next(AvlNode<Inters::Line *> *node) {
-    AvlNode<Inters::Line *> *q, *p = node->Subtree(AvlNode<Inters::Line *>::RIGHT);
+AvlNode *AVLTree::next(AvlNode *node) {
+    AvlNode *q, *p = node->Subtree(AvlNode::RIGHT);
     if (p) {
-        while (p->Subtree(AvlNode<Inters::Line *>::LEFT)) p = p->Subtree(AvlNode<Inters::Line *>::LEFT);
+        while (p->Subtree(AvlNode::LEFT)) p = p->Subtree(AvlNode::LEFT);
         return p;
     } else {
         // find parent, check if node is on left subtree
         q = node;
         p = node->Parent(root, currentSweepPointX);
-        while (p && (q == p->Subtree(AvlNode<Inters::Line *>::RIGHT))) {
+        while (p && (q == p->Subtree(AvlNode::RIGHT))) {
             q = p;
             p = p->Parent(root, currentSweepPointX);
         }
@@ -39,16 +39,16 @@ AvlNode<Inters::Line *> *AVLTree::next(AvlNode<Inters::Line *> *node) {
     }
 }
 
-AvlNode<Inters::Line *> *AVLTree::prev(AvlNode<Inters::Line *> *node) {
-    AvlNode<Inters::Line *> *q, *p = node->Subtree(AvlNode<Inters::Line *>::LEFT);
+AvlNode *AVLTree::prev(AvlNode *node) {
+    AvlNode *q, *p = node->Subtree(AvlNode::LEFT);
     if (p) {
-        while (p->Subtree(AvlNode<Inters::Line *>::RIGHT)) p = p->Subtree(AvlNode<Inters::Line *>::RIGHT);
+        while (p->Subtree(AvlNode::RIGHT)) p = p->Subtree(AvlNode::RIGHT);
         return p;
     } else {
         // find parent, check if node is on left subtree
         q = node;
         p = node->Parent(root, currentSweepPointX);
-        while (p && (q == p->Subtree(AvlNode<Inters::Line *>::LEFT))) {
+        while (p && (q == p->Subtree(AvlNode::LEFT))) {
             q = p;
             p = p->Parent(root, currentSweepPointX);
         }

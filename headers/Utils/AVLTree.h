@@ -12,7 +12,7 @@ class AVLTree {
 
 private:
 
-    AvlNode<Inters::Line *> *root;
+    AvlNode *root;
     double currentSweepPointX;
 
 public:
@@ -26,15 +26,15 @@ public:
         return (root == NULL);
     }
 
-    AvlNode<Inters::Line *> *insert(LineComparable *item);
+    AvlNode *insert(LineComparable *item);
 
     LineComparable *remove(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
-    AvlNode<Inters::Line *> *next(AvlNode<Inters::Line *> *node);
+    AvlNode *next(AvlNode *node);
 
-    AvlNode<Inters::Line *> *prev(AvlNode<Inters::Line *> *node);
+    AvlNode *prev(AvlNode *node);
 
-    AvlNode<Inters::Line *> *search(Inters::Line *key, cmp_t cmp = EQ_CMP);
+    AvlNode *search(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
     int check();
 

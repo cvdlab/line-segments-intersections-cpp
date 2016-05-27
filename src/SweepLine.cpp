@@ -17,7 +17,7 @@ void Inters::SweepLine::add(Event *E) {
     std::list<Line *>::const_iterator iterator;
     for (iterator = left.begin(); iterator != left.end(); ++iterator) {
         LineComparable *lineComparable = new LineComparable(*iterator);
-        AvlNode<Line *> *insertedLine = this->Tree.insert(lineComparable);
+        AvlNode *insertedLine = this->Tree.insert(lineComparable);
 
         /* Now I can check for intersections */
         Line *previousLine = this->Tree.prev(insertedLine)->Key();

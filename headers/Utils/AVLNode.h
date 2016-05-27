@@ -23,7 +23,6 @@ using namespace std;
 
 // AvlNode -- Class to implement an AVL Tree
 //
-template<class KeyType>
 class AvlNode {
 public:
     // Max number of subtrees per node
@@ -52,7 +51,7 @@ public:
     LineComparable *Data() const { return myData; }
 
     // Get this node's key field
-    KeyType Key() const { return myData->Key(); }
+    Inters::Line *Key() const { return myData->Key(); }
 
     // Query the balance factor, it will be a value between -1 .. 1
     // where:
@@ -66,7 +65,7 @@ public:
     //
     AvlNode *Subtree(dir_t dir) const { return mySubtree[dir]; }
 
-    AvlNode<KeyType> *Parent(AvlNode<KeyType> *, double currentSweepPointX);
+    AvlNode *Parent(AvlNode *, double currentSweepPointX);
 
     // ----- Search/Insert/Delete
     //
@@ -80,15 +79,15 @@ public:
 
     // Look for the given key, return NULL if not found,
     // otherwise return the item's address.
-    static AvlNode<KeyType> *Search(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
+    static AvlNode *Search(Inters::Line *key, AvlNode *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
 
     // Insert the given key, return a pointer to the node if it was inserted,
     // otherwise return NULL
-    static AvlNode<KeyType> *Insert(LineComparable *item, AvlNode<KeyType> *root, double currentSweepPointX);
+    static AvlNode *Insert(LineComparable *item, AvlNode *root, double currentSweepPointX);
 
     // Delete the given key from the tree. Return the corresponding
     // node, or return NULL if it was not found.
-    static LineComparable *Delete(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
+    static LineComparable *Delete(Inters::Line *key, AvlNode *root, double currentSweepPointX, cmp_t cmp = EQ_CMP);
 
     // Verification
 
@@ -134,7 +133,7 @@ private:
     // ----- Private data
 
     LineComparable *myData;  // Data field
-    AvlNode<KeyType> *mySubtree[MAX_SUBTREES];   // Pointers to subtrees
+    AvlNode *mySubtree[MAX_SUBTREES];   // Pointers to subtrees
     short myBal;   // Balance factor
 
     // Reset all subtrees to null and clear the balance factor
@@ -151,19 +150,19 @@ private:
     // the key was successfully inserted.  Upon return, the "change"
     // parameter will be '1' if the tree height changed as a result
     // of the insertion (otherwise "change" will be 0).
-    static AvlNode<KeyType> *Insert(LineComparable *item,
-                                    AvlNode<KeyType> *&root,
-                                    int &change, double currentSweepPointX);
+    static AvlNode *Insert(LineComparable *item,
+                           AvlNode *&root,
+                           int &change, double currentSweepPointX);
 
     // Delete the given key from the given tree. Return NULL if the
     // key is not found in the tree. Otherwise return a pointer to the
     // node that was removed from the tree.  Upon return, the "change"
     // parameter will be '1' if the tree height changed as a result
     // of the deletion (otherwise "change" will be 0).
-    static LineComparable *Delete(KeyType key,
-                                  AvlNode<KeyType> *&root,
+    static LineComparable *Delete(double currentSweepPointX,
+                                  Inters::Line *key,
+                                  AvlNode *&root,
                                   int &change,
-                                  double currentSweepPointX,
                                   cmp_t cmp = EQ_CMP);
 
     // Routines for rebalancing and rotating subtrees
@@ -171,15 +170,15 @@ private:
     // Perform an XX rotation for the given direction 'X'.
     // Return 1 if the tree height changes due to rotation,
     // otherwise return 0.
-    static int RotateOnce(AvlNode<KeyType> *&root, dir_t dir);
+    static int RotateOnce(AvlNode *&root, dir_t dir);
 
     // Perform an XY rotation for the given direction 'X'
     // Return 1 if the tree height changes due to rotation,
     // otherwise return 0.
-    static int RotateTwice(AvlNode<KeyType> *&root, dir_t dir);
+    static int RotateTwice(AvlNode *&root, dir_t dir);
 
     // Rebalance a (sub)tree if it has become imbalanced
-    static int ReBalance(AvlNode<KeyType> *&root);
+    static int ReBalance(AvlNode *&root);
 
     // Perform a comparison of the given key against the given
     // item using the given criteria (min, max, or equivalence
@@ -187,13 +186,13 @@ private:
     //   EQ_CMP if the keys are equivalent
     //   MIN_CMP if this key is less than the item's key
     //   MAX_CMP if this key is greater than item's key
-    cmp_t Compare(KeyType key, double currentSweepPointX, cmp_t cmp = EQ_CMP) const;
+    cmp_t Compare(Inters::Line *key, double currentSweepPointX, cmp_t cmp = EQ_CMP) const;
 
 private:
     // Disallow copying and assignment
-    AvlNode(const AvlNode<KeyType> &);
+    AvlNode(const AvlNode &);
 
-    AvlNode &operator=(const AvlNode<KeyType> &);
+    AvlNode &operator=(const AvlNode &);
 
 };
 

@@ -1,23 +1,22 @@
 #include "../../headers/Utils/AVLNode.h"
 
-template<class KeyType>
-AvlNode<KeyType>::AvlNode(LineComparable *item)
+AvlNode::AvlNode(LineComparable *item)
         : myData(item), myBal(0) {
     Reset();
 }
 
-template<class KeyType>
-AvlNode<KeyType>::~AvlNode(void) {
+
+AvlNode::~AvlNode(void) {
     if (mySubtree[LEFT]) delete mySubtree[LEFT];
     if (mySubtree[RIGHT]) delete mySubtree[RIGHT];
 }
 
 // ------------------------------------------------- Rotating and Re-Balancing
 
-template<class KeyType>
-int AvlNode<KeyType>::RotateOnce(AvlNode<KeyType> *&root, dir_t dir) {
+
+int AvlNode::RotateOnce(AvlNode *&root, dir_t dir) {
     dir_t otherDir = Opposite(dir);
-    AvlNode<KeyType> *oldRoot = root;
+    AvlNode *oldRoot = root;
 
     // See if otherDir subtree is balanced. If it is, then this
     // rotation will *not* change the overall tree height.
@@ -39,11 +38,11 @@ int AvlNode<KeyType>::RotateOnce(AvlNode<KeyType> *&root, dir_t dir) {
     return heightChange;
 }
 
-template<class KeyType>
-int AvlNode<KeyType>::RotateTwice(AvlNode<KeyType> *&root, dir_t dir) {
+
+int AvlNode::RotateTwice(AvlNode *&root, dir_t dir) {
     dir_t otherDir = Opposite(dir);
-    AvlNode<KeyType> *oldRoot = root;
-    AvlNode<KeyType> *oldOtherDirSubtree = root->mySubtree[otherDir];
+    AvlNode *oldRoot = root;
+    AvlNode *oldOtherDirSubtree = root->mySubtree[otherDir];
 
     // assign new root
     root = oldRoot->mySubtree[otherDir]->mySubtree[dir];
@@ -57,16 +56,16 @@ int AvlNode<KeyType>::RotateTwice(AvlNode<KeyType> *&root, dir_t dir) {
     root->mySubtree[otherDir] = oldOtherDirSubtree;
 
     // update balances
-    root->mySubtree[LEFT]->myBal = -max(root->myBal, 0);
-    root->mySubtree[RIGHT]->myBal = -min(root->myBal, 0);
+    root->mySubtree[LEFT]->myBal = -std::max(int(root->myBal), 0);
+    root->mySubtree[RIGHT]->myBal = -std::min(int(root->myBal), 0);
     root->myBal = 0;
 
     // A double rotation always shortens the overall height of the tree
     return HEIGHT_CHANGE;
 }
 
-template<class KeyType>
-int AvlNode<KeyType>::ReBalance(AvlNode<KeyType> *&root) {
+
+int AvlNode::ReBalance(AvlNode *&root) {
     int heightChange = HEIGHT_NOCHANGE;
 
     if (LEFT_IMBALANCE(root->myBal)) {
@@ -94,8 +93,8 @@ int AvlNode<KeyType>::ReBalance(AvlNode<KeyType> *&root) {
 
 // ------------------------------------------------------- Comparisons
 
-template<class KeyType>
-cmp_t AvlNode<KeyType>::Compare(KeyType key, double currentSweepPointX, cmp_t cmp) const {
+
+cmp_t AvlNode::Compare(Inters::Line *key, double currentSweepPointX, cmp_t cmp) const {
     switch (cmp) {
         default:
         case EQ_CMP :  // Standard comparison
@@ -109,20 +108,20 @@ cmp_t AvlNode<KeyType>::Compare(KeyType key, double currentSweepPointX, cmp_t cm
     }
 }
 
-template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot, double currentSweepPointX) {
+
+AvlNode *AvlNode::Parent(AvlNode *myRoot, double currentSweepPointX) {
     if (this == myRoot) return 0;
 
-    AvlNode<KeyType> *p = myRoot;
+    AvlNode *p = myRoot;
     while (p) {
-        if (this == p->Subtree(AvlNode<KeyType>::LEFT)) return p;
-        if (this == p->Subtree(AvlNode<KeyType>::RIGHT)) return p;
+        if (this == p->Subtree(AvlNode::LEFT)) return p;
+        if (this == p->Subtree(AvlNode::RIGHT)) return p;
 
         cmp_t result = p->Compare(this->Key(), currentSweepPointX);
         if (result == MIN_CMP)
-            p = p->Subtree(AvlNode<KeyType>::LEFT);
+            p = p->Subtree(AvlNode::LEFT);
         else
-            p = p->Subtree(AvlNode<KeyType>::RIGHT);
+            p = p->Subtree(AvlNode::RIGHT);
     }
 
     return 0;
@@ -130,8 +129,8 @@ AvlNode<KeyType> *AvlNode<KeyType>::Parent(AvlNode<KeyType> *myRoot, double curr
 
 // ------------------------------------------------------- Search/Insert/Delete
 
-template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp) {
+
+AvlNode *AvlNode::Search(Inters::Line *key, AvlNode *root, double currentSweepPointX, cmp_t cmp) {
     cmp_t result;
     while (root && (result = root->Compare(key, currentSweepPointX, cmp))) {
         root = root->mySubtree[(result < 0) ? LEFT : RIGHT];
@@ -139,33 +138,33 @@ AvlNode<KeyType> *AvlNode<KeyType>::Search(KeyType key, AvlNode<KeyType> *root, 
     return (root) ? root : NULL;
 }
 
-template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                           AvlNode<KeyType> *root, double currentSweepPointX) {
+
+AvlNode *AvlNode::Insert(LineComparable *item,
+                         AvlNode *root, double currentSweepPointX) {
     int change;
     return Insert(item, root, change, currentSweepPointX);
 }
 
-template<class KeyType>
-LineComparable *AvlNode<KeyType>::Delete(KeyType key, AvlNode<KeyType> *root, double currentSweepPointX, cmp_t cmp) {
+
+LineComparable *AvlNode::Delete(Inters::Line *key, AvlNode *root, double currentSweepPointX, cmp_t cmp) {
     int change;
-    return Delete(key, root, change, currentSweepPointX, cmp);
+    return Delete(currentSweepPointX, key, root, change, cmp);
 }
 
-template<class KeyType>
-AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
-                                           AvlNode<KeyType> *&root,
-                                           int &change, double currentSweepPointX) {
+
+AvlNode *AvlNode::Insert(LineComparable *item,
+                         AvlNode *&root,
+                         int &change, double currentSweepPointX) {
     // See if the tree is empty
     if (root == NULL) {
         // Insert new node here
-        root = new AvlNode<KeyType>(item);
+        root = new AvlNode(item);
         change = HEIGHT_CHANGE;
         return root;
     }
 
     // Initialize
-    AvlNode<KeyType> *found = NULL;
+    AvlNode *found = NULL;
     int increase = 0;
 
     // Compare items and determine which direction to search
@@ -195,12 +194,12 @@ AvlNode<KeyType> *AvlNode<KeyType>::Insert(LineComparable *item,
     return found;
 }
 
-template<class KeyType>
-LineComparable *AvlNode<KeyType>::Delete(KeyType key,
-                                         AvlNode<KeyType> *&root,
-                                         int &change,
-                                         double currentSweepPointX,
-                                         cmp_t cmp) {
+
+LineComparable *AvlNode::Delete(double currentSweepPointX,
+                                Inters::Line *key,
+                                AvlNode *&root,
+                                int &change,
+                                cmp_t cmp) {
     // See if the tree is empty
     if (root == NULL) {
         // Key not found
@@ -250,7 +249,7 @@ LineComparable *AvlNode<KeyType>::Delete(KeyType key,
         } else if ((root->mySubtree[LEFT] == NULL) ||
                    (root->mySubtree[RIGHT] == NULL)) {
             // We have one child -- only child becomes new root
-            AvlNode<KeyType> *toDelete = root;
+            AvlNode *toDelete = root;
             root = root->mySubtree[(root->mySubtree[RIGHT]) ? RIGHT : LEFT];
             change = HEIGHT_CHANGE;    // We just shortened the subtree
             // Null-out the subtree pointers so we dont recursively delete
@@ -291,17 +290,17 @@ LineComparable *AvlNode<KeyType>::Delete(KeyType key,
 
 // --------------------------------------------------------------- Verification
 
-template<class KeyType>
+
 int
-AvlNode<KeyType>::Height() const {
+AvlNode::Height() const {
     int leftHeight = (mySubtree[LEFT]) ? mySubtree[LEFT]->Height() : 0;
     int rightHeight = (mySubtree[RIGHT]) ? mySubtree[RIGHT]->Height() : 0;
     return (1 + max(leftHeight, rightHeight));
 }
 
-template<class KeyType>
+
 int
-AvlNode<KeyType>::Check(double currentSweepPointX) {
+AvlNode::Check(double currentSweepPointX) {
     int valid = 1;
 
     // First verify that subtrees are correct
