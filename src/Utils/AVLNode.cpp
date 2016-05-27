@@ -301,7 +301,7 @@ AvlNode<KeyType>::Height() const {
 
 template<class KeyType>
 int
-AvlNode<KeyType>::Check(double currentSweepPointX) const {
+AvlNode<KeyType>::Check(double currentSweepPointX) {
     int valid = 1;
 
     // First verify that subtrees are correct
