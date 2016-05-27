@@ -8,7 +8,7 @@
 #include "AVLNode.h"
 
 /* AVL tree */
-class AVLtree {
+class AVLTree {
 
 private:
 
@@ -17,31 +17,25 @@ private:
 
 public:
 
-    AVLtree() : root(NULL) { };
+    AVLTree() : root(NULL) { };
 
-    ~AVLtree() { if (root) delete root; }
+    ~AVLTree() { if (root) delete root; }
 
     // See if the tree is empty
     int IsEmpty() const {
         return (root == NULL);
     }
 
-    template<class T>
     AvlNode<Inters::Line *> *insert(LineComparable *item);
 
-    template<class T>
     LineComparable *remove(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
-    template<class T>
     AvlNode<Inters::Line *> *next(AvlNode<Inters::Line *> *node);
 
-    template<class T>
     AvlNode<Inters::Line *> *prev(AvlNode<Inters::Line *> *node);
 
-    template<class T>
     AvlNode<Inters::Line *> *search(Inters::Line *key, cmp_t cmp = EQ_CMP);
 
-    template<class T>
     int check();
 
     void setCurrentSweepPointX(double currentSweepPointX) {
