@@ -3,40 +3,41 @@
 //
 
 #include "../headers/SweepLine.h"
-#include "../headers/Utils/LineUtils.h"
 
 void Inters::SweepLine::add(Event *E) {
 
 
-//    double sweepLinePointX = E->getPoint()->getX();
-//    this->Tree.setCurrentSweepPointX(sweepLinePointX);
-//
-//    /* Now I have to add all segments in lefts list */
-//
-//    std::list<Line> left = E->getLefts();
-//
-//    std::list<Line>::const_iterator iterator;
-//    for (iterator = left.begin(); iterator != left.end(); ++iterator) {
-//        AvlNode<Line> *insertedLine = this->Tree.insert(*iterator);
-//
-//        /* Now I can check for intersections */
-//        Line previousLine = this->Tree.prev(insertedLine)->Key();
-//        Line nextLine = this->Tree.next(insertedLine)->Key();
-//        Line currentLine = insertedLine->Key();
-//        LineUtils lineUtils;
-//        Point *intersectionPrev = lineUtils.findIntersection(&previousLine, &currentLine);
-//        Point *intersectionNext = lineUtils.findIntersection(&nextLine, &currentLine);
-//
-//        if (addIntersectionToList(intersectionPrev, &previousLine, &currentLine)) {
-//            /*** ADD TO QUEUE ***/
-//        }
-//
-//        if (addIntersectionToList(intersectionNext, &currentLine, &nextLine)) {
-//            /*** ADD TO QUEUE ***/
-//        }
-//
-//
-//    }
+    double sweepLinePointX = E->getPoint()->getX();
+    this->Tree.setCurrentSweepPointX(sweepLinePointX);
+
+    /* Now I have to add all segments in lefts list */
+
+    std::list<Line *> left = E->getLefts();
+
+    std::list<Line *>::const_iterator iterator;
+    for (iterator = left.begin(); iterator != left.end(); ++iterator) {
+        LineComparable *lineComparable = new LineComparable(*iterator);
+        AvlNode<Line *> *insertedLine = this->Tree.insert(lineComparable);
+
+        /* Now I can check for intersections */
+        Line *previousLine = this->Tree.prev(insertedLine)->Key();
+        Line *nextLine = this->Tree.next(insertedLine)->Key();
+        Line *currentLine = insertedLine->Key();
+        LineUtils lineUtils;
+        Intersection *intersectionPrev = lineUtils.findIntersection(previousLine, currentLine);
+        Intersection *intersectionNext = lineUtils.findIntersection(currentLine, nextLine);
+
+        if (addIntersectionToList(intersectionPrev)) {
+            /*** ADD TO QUEUE ***/
+
+        }
+
+        if (addIntersectionToList(intersectionNext)) {
+            /*** ADD TO QUEUE ***/
+        }
+
+
+    }
 }
 
 void Inters::SweepLine::remove(Event *E) {
@@ -91,5 +92,8 @@ void Inters::SweepLine::swapLines(Event *E) {
 //        this->Tree.insert(*linesCouple.first);
 //
 //    }
+}
 
+bool Inters::SweepLine::addIntersectionToList(Intersection *intersection) {
+    return true;
 }
