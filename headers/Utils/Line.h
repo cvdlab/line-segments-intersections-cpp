@@ -34,25 +34,42 @@ namespace Inters {
             delete v1;
         }
 
-        /** Overloading math operators **/
-        bool operator<(const Inters::Line &l1) {
-            return *this->getV0() < *l1.getV0();
+
+        bool operator>(const Line &l) {
+
+            if (this->getV0()->getY() == l.getV0()->getY()) {
+                return this->getV0()->getX() > l.getV0()->getX();
+            }
+
+            return this->getV0()->getY() > l.getV0()->getY();
         }
 
-        bool operator>(const Inters::Line &l1) {
-            return *this->getV0() > *l1.getV0();
+        bool operator<(const Line &l) {
+            if (this->getV0()->getY() == l.getV0()->getY()) {
+                return this->getV0()->getX() < l.getV0()->getX();
+            }
+
+            return this->getV0()->getY() < l.getV0()->getY();
         }
 
-        bool operator==(const Inters::Line &l1) {
-            return *this->getV0() == *l1.getV0();
+        bool operator==(const Line &l) {
+            return this->getV0()->getY() == l.getV0()->getY() && this->getV0()->getX() == l.getV0()->getX();
         }
 
-        bool operator<=(const Inters::Line &l1) {
-            return *this->getV0() <= *l1.getV0();
+        bool operator<=(const Line &l) {
+            if (this->getV0()->getY() == l.getV0()->getY()) {
+                return this->getV0()->getX() <= l.getV0()->getX();
+            }
+
+            return this->getV0()->getY() < l.getV0()->getY();
         }
 
-        bool operator>=(const Inters::Line &l1) {
-            return *this->getV0() >= *l1.getV0();
+        bool operator>=(const Line &l) {
+            if (this->getV0()->getY() == l.getV0()->getY()) {
+                return this->getV0()->getX() >= l.getV0()->getX();
+            }
+
+            return this->getV0()->getY() > l.getV0()->getY();
         }
 
         friend std::ostream &operator<<(std::ostream &output,

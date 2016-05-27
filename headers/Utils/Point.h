@@ -30,19 +30,19 @@ namespace Inters {
 
         bool operator>(const Point &p1) {
 
-            if (this->getY() == p1.getY()) {
-                return this->getX() > p1.getX();
+            if (this->getX() == p1.getX()) {
+                return this->getY() > p1.getY();
             }
 
-            return this->getY() > p1.getY();
+            return this->getX() > p1.getX();
         }
 
         bool operator<(const Point &p1) {
-            if (this->getY() == p1.getY()) {
-                return this->getX() < p1.getX();
+            if (this->getX() == p1.getX()) {
+                return this->getY() < p1.getY();
             }
 
-            return this->getY() < p1.getY();
+            return this->getX() < p1.getX();
         }
 
         bool operator==(const Point &p1) {
@@ -50,19 +50,19 @@ namespace Inters {
         }
 
         bool operator<=(const Point &p1) {
-            if (this->getY() == p1.getY()) {
-                return this->getX() <= p1.getX();
+            if (this->getX() == p1.getX()) {
+                return this->getY() <= p1.getY();
             }
 
-            return this->getY() < p1.getY();
+            return this->getX() < p1.getX();
         }
 
         bool operator>=(const Point &p1) {
-            if (this->getY() == p1.getY()) {
-                return this->getX() >= p1.getX();
+            if (this->getX() == p1.getX()) {
+                return this->getY() >= p1.getY();
             }
 
-            return this->getY() > p1.getY();
+            return this->getX() > p1.getX();
         }
 
         friend std::ostream &operator<<(std::ostream &output,

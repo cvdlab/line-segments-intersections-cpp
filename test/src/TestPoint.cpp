@@ -17,7 +17,7 @@ TEST_CASE("Test greater than operator", "[Point]") {
         p1 = new Inters::Point(1, 4);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE(*p1 > *p2);
+        REQUIRE_FALSE(*p1 > *p2);
     }
 
     SECTION("p1 has lower y and lower x") {
@@ -31,7 +31,7 @@ TEST_CASE("Test greater than operator", "[Point]") {
         p1 = new Inters::Point(5, 0);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE_FALSE(*p1 > *p2);
+        REQUIRE(*p1 > *p2);
     }
 
     SECTION("p1 has same y and greater x") {
@@ -66,7 +66,7 @@ TEST_CASE("Test less than operator", "[Point]") {
         p1 = new Inters::Point(1, 4);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE_FALSE(*p1 < *p2);
+        REQUIRE(*p1 < *p2);
     }
 
     SECTION("p1 has lower y and lower x") {
@@ -80,7 +80,7 @@ TEST_CASE("Test less than operator", "[Point]") {
         p1 = new Inters::Point(5, 0);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE(*p1 < *p2);
+        REQUIRE_FALSE(*p1 < *p2);
     }
 
     SECTION("p1 has same y and greater x") {
@@ -115,7 +115,7 @@ TEST_CASE("Test greater than or equal operator", "[Point]") {
         p1 = new Inters::Point(1, 4);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE(*p1 >= *p2);
+        REQUIRE_FALSE(*p1 >= *p2);
     }
 
     SECTION("p1 has lower y and lower x") {
@@ -129,7 +129,7 @@ TEST_CASE("Test greater than or equal operator", "[Point]") {
         p1 = new Inters::Point(5, 0);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE_FALSE(*p1 >= *p2);
+        REQUIRE(*p1 >= *p2);
     }
 
     SECTION("p1 has same y and greater x") {
@@ -164,7 +164,7 @@ TEST_CASE("Test less than or equal operator", "[Point]") {
         p1 = new Inters::Point(1, 4);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE_FALSE(*p1 <= *p2);
+        REQUIRE(*p1 <= *p2);
     }
 
     SECTION("p1 has lower y and lower x") {
@@ -178,7 +178,7 @@ TEST_CASE("Test less than or equal operator", "[Point]") {
         p1 = new Inters::Point(5, 0);
         p2 = new Inters::Point(2, 1);
 
-        REQUIRE(*p1 <= *p2);
+        REQUIRE_FALSE(*p1 <= *p2);
     }
 
     SECTION("p1 has same y and greater x") {
