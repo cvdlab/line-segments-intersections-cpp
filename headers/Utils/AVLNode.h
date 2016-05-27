@@ -97,7 +97,7 @@ public:
 
     // Verify this tree is a valid AVL tree, return TRUE if it is,
     // return FALSE otherwise
-    int Check(double currentSweepPointX) const;
+    int Check(double currentSweepPointX);
 
     // If you want to provide your own allocation scheme than simply
     // #define the preprocessor manifest constant named CUSTOM_ALLOCATE
