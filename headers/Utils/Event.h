@@ -26,9 +26,6 @@ namespace Inters {
 
         ~Event() {
             delete point;
-            delete rights;
-            delete lefts;
-            delete intersections;
         }
 
         Point *getPoint() const {
@@ -49,21 +46,11 @@ namespace Inters {
 
         /** Overloading math operators **/
         bool operator<(const Inters::Event &e1) {
-
-            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
-                return this->getPoint()->getY() < e1.getPoint()->getY();
-            }
-
-            return this->getPoint()->getX() < e1.getPoint()->getX();
+            return *this->getPoint() < *e1.getPoint();
         };
 
         bool operator>(const Inters::Event &e1) {
-            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
-                return this->getPoint()->getY() > e1.getPoint()->getY();
-            }
-
-            return this->getPoint()->getX() > e1.getPoint()->getX();
-
+            return *this->getPoint() > *e1.getPoint();
         }
 
         bool operator==(const Inters::Event &e1) {
@@ -71,20 +58,11 @@ namespace Inters {
         }
 
         bool operator<=(const Inters::Event &e1) {
-            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
-                return this->getPoint()->getY() <= e1.getPoint()->getY();
-            }
-
-            return this->getPoint()->getX() < e1.getPoint()->getX();
-
+            return *this->getPoint() <= *e1.getPoint();
         }
 
         bool operator>=(const Inters::Event &e1) {
-            if (this->getPoint()->getX() == e1.getPoint()->getX()) {
-                return this->getPoint()->getY() >= e1.getPoint()->getY();
-            }
-
-            return this->getPoint()->getX() > e1.getPoint()->getX();
+            return *this->getPoint() >= *e1.getPoint();
         }
 
         friend std::ostream &operator<<(std::ostream &output,
