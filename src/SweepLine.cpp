@@ -2,7 +2,8 @@
 #include <algorithm>
 
 /** It handles a single event of the queue **/
-void Inters::SweepLine::handleEvent(Event *E) {
+void Inters::SweepLine::handleEvent() {
+    Event *E = this->eventQueue.getEvent();
     add(E);
     remove(E);
     swapLines(E);
