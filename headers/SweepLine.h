@@ -25,7 +25,7 @@ namespace Inters {
 
         ~SweepLine(void) { delete &Tree; } // destructor
 
-        void handleEvent();
+        Inters::Event *handleEvent();
 
     private:
 

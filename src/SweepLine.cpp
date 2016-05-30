@@ -1,14 +1,16 @@
 #include "../headers/SweepLine.h"
 #include <algorithm>
 
-/** It handles a single event of the queue **/
-void Inters::SweepLine::handleEvent() {
+/** It handles a single event of the queue and returns the handled event **/
+Inters::Event *Inters::SweepLine::handleEvent() {
     Event *E = this->eventQueue.getEvent();
-    add(E);
-    remove(E);
-    swapLines(E);
+    if (E != NULL) {
+        add(E);
+        remove(E);
+        swapLines(E);
+    }
 
-    delete E;
+    return E;
 }
 
 void Inters::SweepLine::add(Event *E) {

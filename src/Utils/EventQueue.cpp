@@ -13,7 +13,12 @@ void Inters::EventQueue::addEvent(Event *e) {
 
 
 Inters::Event *Inters::EventQueue::getEvent() {
-    return eventQueue.begin()->second;
+    if (eventQueue.size() == 0) {
+        return NULL;
+    }
+    Event *e = std::move(eventQueue.begin()->second);
+    eventQueue.erase(eventQueue.begin());
+    return e;
 }
 
 Inters::Event *Inters::EventQueue::mergeEvents(Event *e1, Event *e2) {
