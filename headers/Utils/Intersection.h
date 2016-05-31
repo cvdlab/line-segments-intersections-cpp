@@ -55,15 +55,12 @@ namespace Inters {
             return output;
         }
 
-
         bool operator==(const Inters::Intersection &i) {
-            return (this->getIntersectionPoint() == i.getIntersectionPoint() &&
-                    ((this->getLines().first && i.getLines().first && this->getLines().second && i.getLines().second)
+            return ((*this->getIntersectionPoint() == *i.getIntersectionPoint()) &&
+                    ((this->getLines().first == i.getLines().first && this->getLines().second == i.getLines().second)
                      ||
-                     (this->getLines().second && i.getLines().first && this->getLines().first && i.getLines().second)));
+                     (this->getLines().first == i.getLines().second && this->getLines().second == i.getLines().first)));
         }
-
-
     };
 }
 
