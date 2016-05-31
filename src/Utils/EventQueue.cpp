@@ -22,9 +22,10 @@ Inters::Event *Inters::EventQueue::getEvent() {
 }
 
 Inters::Event *Inters::EventQueue::mergeEvents(Event *e1, Event *e2) {
-    e1->getLefts().splice(e1->getLefts().end(), e2->getLefts());
-    e1->getRights().splice(e1->getRights().end(), e2->getRights());
-    e1->getIntersections().splice(e1->getIntersections().end(), e2->getIntersections());
+
+    e1->getLefts()->splice(e1->getLefts()->end(), *e2->getLefts());
+    e1->getRights()->splice(e1->getRights()->end(), *e2->getRights());
+    e1->getIntersections()->splice(e1->getIntersections()->end(), *e2->getIntersections());
 
     return e1;
 }

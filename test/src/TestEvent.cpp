@@ -6,9 +6,10 @@ TEST_CASE("Test Event greater than operator", "[Event]") {
     Inters::Point *p1;
     Inters::Point *p2;
 
-    std::list<Inters::Line *> rights;
-    std::list<Inters::Line *> lefts;
-    std::list<std::pair<Inters::Line *, Inters::Line *> > intersections;
+    std::list<Inters::Line *> *rights = new std::list<Inters::Line *>();
+    std::list<Inters::Line *> *lefts = new std::list<Inters::Line *>();
+    std::list<std::pair<Inters::Line *, Inters::Line *> > *intersections =
+            new std::list<std::pair<Inters::Line *, Inters::Line *> >();
 
 
     Inters::Event *e1;
@@ -81,10 +82,10 @@ TEST_CASE("Test Event less than operator", "[Event]") {
     Inters::Point *p1;
     Inters::Point *p2;
 
-    std::list<Inters::Line *> rights;
-    std::list<Inters::Line *> lefts;
-    std::list<std::pair<Inters::Line *, Inters::Line *> > intersections;
-
+    std::list<Inters::Line *> *rights = new std::list<Inters::Line *>();
+    std::list<Inters::Line *> *lefts = new std::list<Inters::Line *>();
+    std::list<std::pair<Inters::Line *, Inters::Line *> > *intersections =
+            new std::list<std::pair<Inters::Line *, Inters::Line *> >();
 
     Inters::Event *e1;
     Inters::Event *e2;
@@ -156,10 +157,10 @@ TEST_CASE("Test Event greater than or equal operator", "[Event]") {
     Inters::Point *p1;
     Inters::Point *p2;
 
-    std::list<Inters::Line *> rights;
-    std::list<Inters::Line *> lefts;
-    std::list<std::pair<Inters::Line *, Inters::Line *> > intersections;
-
+    std::list<Inters::Line *> *rights = new std::list<Inters::Line *>();
+    std::list<Inters::Line *> *lefts = new std::list<Inters::Line *>();
+    std::list<std::pair<Inters::Line *, Inters::Line *> > *intersections =
+            new std::list<std::pair<Inters::Line *, Inters::Line *> >();
 
     Inters::Event *e1;
     Inters::Event *e2;
@@ -231,10 +232,10 @@ TEST_CASE("Test Event less than or equal operator", "[Event]") {
     Inters::Point *p1;
     Inters::Point *p2;
 
-    std::list<Inters::Line *> rights;
-    std::list<Inters::Line *> lefts;
-    std::list<std::pair<Inters::Line *, Inters::Line *> > intersections;
-
+    std::list<Inters::Line *> *rights = new std::list<Inters::Line *>();
+    std::list<Inters::Line *> *lefts = new std::list<Inters::Line *>();
+    std::list<std::pair<Inters::Line *, Inters::Line *> > *intersections =
+            new std::list<std::pair<Inters::Line *, Inters::Line *> >();
 
     Inters::Event *e1;
     Inters::Event *e2;
@@ -306,10 +307,10 @@ TEST_CASE("Test Event equal operator", "[Event]") {
     Inters::Point *p1;
     Inters::Point *p2;
 
-    std::list<Inters::Line *> rights;
-    std::list<Inters::Line *> lefts;
-    std::list<std::pair<Inters::Line *, Inters::Line *> > intersections;
-
+    std::list<Inters::Line *> *rights = new std::list<Inters::Line *>();
+    std::list<Inters::Line *> *lefts = new std::list<Inters::Line *>();
+    std::list<std::pair<Inters::Line *, Inters::Line *> > *intersections =
+            new std::list<std::pair<Inters::Line *, Inters::Line *> >();
 
     Inters::Event *e1;
     Inters::Event *e2;

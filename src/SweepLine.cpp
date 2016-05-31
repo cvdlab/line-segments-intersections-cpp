@@ -21,10 +21,10 @@ void Inters::SweepLine::add(Event *E) {
 
     /* Now I have to add all segments in lefts list */
 
-    std::list<Line *> left = E->getLefts();
+    std::list<Line *> *left = E->getLefts();
 
     std::list<Line *>::const_iterator iterator;
-    for (iterator = left.begin(); iterator != left.end(); ++iterator) {
+    for (iterator = left->begin(); iterator != left->end(); ++iterator) {
         AvlNode *insertedLine = this->Tree.insert(*iterator);
 
         /* Now I can check for intersections */
@@ -36,18 +36,18 @@ void Inters::SweepLine::add(Event *E) {
         Intersection *intersectionNext = lineUtils.findIntersection(currentLine, nextLine);
 
         if (addIntersectionToList(intersectionPrev)) {
-            std::list<pair<Line *, Line *> > couples;
-            couples.push_back(intersectionPrev->getLines());
-            std::list<Line *> rights;
-            std::list<Line *> lefts;
+            std::list<pair<Line *, Line *> > *couples = new std::list<pair<Line *, Line *> >();
+            couples->push_back(intersectionPrev->getLines());
+            std::list<Line *> *rights = new std::list<Line *>();
+            std::list<Line *> *lefts = new std::list<Line *>();
             this->eventQueue.addEvent(new Event(intersectionPrev->getIntersectionPoint(), rights, lefts, couples));
         }
 
         if (addIntersectionToList(intersectionNext)) {
-            std::list<pair<Line *, Line *> > couples;
-            couples.push_back(intersectionNext->getLines());
-            std::list<Line *> rights;
-            std::list<Line *> lefts;
+            std::list<pair<Line *, Line *> > *couples = new std::list<std::pair<Line *, Line *> >();
+            couples->push_back(intersectionNext->getLines());
+            std::list<Line *> *rights = new std::list<Line *>();
+            std::list<Line *> *lefts = new std::list<Line *>();
             this->eventQueue.addEvent(new Event(intersectionPrev->getIntersectionPoint(), rights, lefts, couples));
         }
     }
@@ -60,10 +60,10 @@ void Inters::SweepLine::remove(Event *E) {
 
     /* Now I have to remove all segments in rights list */
 
-    std::list<Line *> right = E->getRights();
+    std::list<Line *> *right = E->getRights();
 
     std::list<Line *>::const_iterator iterator;
-    for (iterator = right.begin(); iterator != right.end(); ++iterator) {
+    for (iterator = right->begin(); iterator != right->end(); ++iterator) {
 
 
         AvlNode *nodeToRemove = this->Tree.search(*iterator); //Search the line we want to remove
@@ -75,10 +75,10 @@ void Inters::SweepLine::remove(Event *E) {
         Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
 
         if (addIntersectionToList(intersection)) {
-            std::list<pair<Line *, Line *> > couples;
-            couples.push_back(intersection->getLines());
-            std::list<Line *> rights;
-            std::list<Line *> lefts;
+            std::list<pair<Line *, Line *> > *couples = new std::list<std::pair<Line *, Line *> >();
+            couples->push_back(intersection->getLines());
+            std::list<Line *> *rights = new std::list<Line *>();
+            std::list<Line *> *lefts = new std::list<Line *>();
             this->eventQueue.addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
         }
 
@@ -87,10 +87,10 @@ void Inters::SweepLine::remove(Event *E) {
 }
 
 void Inters::SweepLine::swapLines(Event *E) {
-    std::list<pair<Line *, Line *> > intersections = E->getIntersections();
+    std::list<pair<Line *, Line *> > *intersections = E->getIntersections();
 
     std::list<pair<Line *, Line *> >::const_iterator iterator;
-    for (iterator = intersections.begin(); iterator != intersections.end(); ++iterator) {
+    for (iterator = intersections->begin(); iterator != intersections->end(); ++iterator) {
         pair<Line *, Line *> linesCouple = *iterator;
         AvlNode *firstLineNode = this->Tree.search(linesCouple.first);
         AvlNode *secondLineNode = this->Tree.search(linesCouple.second);
@@ -102,10 +102,10 @@ void Inters::SweepLine::swapLines(Event *E) {
         Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
 
         if (addIntersectionToList(intersection)) {
-            std::list<pair<Line *, Line *> > couples;
-            couples.push_back(intersection->getLines());
-            std::list<Line *> rights;
-            std::list<Line *> lefts;
+            std::list<pair<Line *, Line *> > *couples = new std::list<std::pair<Line *, Line *> >();
+            couples->push_back(intersection->getLines());
+            std::list<Line *> *rights = new std::list<Line *>();
+            std::list<Line *> *lefts = new std::list<Line *>();
             this->eventQueue.addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
         }
 
@@ -119,7 +119,7 @@ void Inters::SweepLine::swapLines(Event *E) {
 }
 
 /** Adds an intersection to the list of intersections and return false if the intersection was
- * already there an true if it was not found before **/
+ * already there or true if it was not found before **/
 bool Inters::SweepLine::addIntersectionToList(Intersection *intersection) {
 
     std::list<Intersection *>::iterator findIter = std::find(intersections.begin(), intersections.end(),

@@ -10,14 +10,14 @@ namespace Inters {
     class Event {
 
         Point *point;
-        std::list<Line *> rights;
-        std::list<Line *> lefts;
-        std::list<std::pair<Line *, Line *> > intersections;
+        std::list<Line *> *rights;
+        std::list<Line *> *lefts;
+        std::list<std::pair<Line *, Line *> > *intersections;
 
     public:
         Event(Point *point,
-              std::list<Line *> rights, std::list<Line *> lefts,
-              std::list<std::pair<Line *, Line *> > intersections
+              std::list<Line *> *rights, std::list<Line *> *lefts,
+              std::list<std::pair<Line *, Line *> > *intersections
         ) :
 
                 point(point), rights(rights),
@@ -32,15 +32,15 @@ namespace Inters {
             return point;
         }
 
-        std::list<Line *> getRights() const {
+        std::list<Line *> *getRights() const {
             return rights;
         }
 
-        std::list<Line *> getLefts() const {
+        std::list<Line *> *getLefts() const {
             return lefts;
         }
 
-        std::list<std::pair<Line *, Line *> > getIntersections() const {
+        std::list<std::pair<Line *, Line *> > *getIntersections() const {
             return intersections;
         }
 
