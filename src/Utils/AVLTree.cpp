@@ -6,17 +6,17 @@
 
 // Search, Insert, Delete, and Check
 AvlNode *AVLTree::search(Inters::Line *key, cmp_t cmp) {
-    return AvlNode::Search(key, root, currentSweepPointX, cmp);
+    return AvlNode::Search(key, *root, currentSweepPointX, cmp);
 }
 
 
 AvlNode *AVLTree::insert(Inters::Line *item) {
     LineComparable *lineComparable = new LineComparable(item);
-    return AvlNode::Insert(lineComparable, root, currentSweepPointX);
+    return *AvlNode::Insert(lineComparable, root, currentSweepPointX);
 }
 
 LineComparable *AVLTree::remove(Inters::Line *key, cmp_t cmp) {
-    return AvlNode::Delete(key, root, currentSweepPointX, cmp);
+    return AvlNode::Delete(key, *root, currentSweepPointX, cmp);
 }
 
 // As with all binary trees, a node's in-order successor is the
@@ -30,10 +30,10 @@ AvlNode *AVLTree::next(AvlNode *node) {
     } else {
         // find parent, check if node is on left subtree
         q = node;
-        p = node->Parent(root, currentSweepPointX);
+        p = node->Parent(*root, currentSweepPointX);
         while (p && (q == p->Subtree(AvlNode::RIGHT))) {
             q = p;
-            p = p->Parent(root, currentSweepPointX);
+            p = p->Parent(*root, currentSweepPointX);
         }
 
         return p;
@@ -48,10 +48,10 @@ AvlNode *AVLTree::prev(AvlNode *node) {
     } else {
         // find parent, check if node is on left subtree
         q = node;
-        p = node->Parent(root, currentSweepPointX);
+        p = node->Parent(*root, currentSweepPointX);
         while (p && (q == p->Subtree(AvlNode::LEFT))) {
             q = p;
-            p = p->Parent(root, currentSweepPointX);
+            p = p->Parent(*root, currentSweepPointX);
         }
 
         return p;
@@ -59,5 +59,5 @@ AvlNode *AVLTree::prev(AvlNode *node) {
 }
 
 int AVLTree::check() {
-    return (root) ? root->Check(currentSweepPointX) : 1;
+    return (root) ? (*root)->Check(currentSweepPointX) : 1;
 }

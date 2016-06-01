@@ -139,8 +139,8 @@ AvlNode *AvlNode::Search(Inters::Line *key, AvlNode *root, double currentSweepPo
 }
 
 
-AvlNode *AvlNode::Insert(LineComparable *item,
-                         AvlNode *root, double currentSweepPointX) {
+AvlNode **AvlNode::Insert(LineComparable *item,
+                          AvlNode **root, double currentSweepPointX) {
     int change;
     return Insert(item, root, change, currentSweepPointX);
 }
@@ -152,28 +152,28 @@ LineComparable *AvlNode::Delete(Inters::Line *key, AvlNode *root, double current
 }
 
 
-AvlNode *AvlNode::Insert(LineComparable *item,
-                         AvlNode *&root,
-                         int &change, double currentSweepPointX) {
+AvlNode **AvlNode::Insert(LineComparable *item,
+                          AvlNode **root,
+                          int &change, double currentSweepPointX) {
     // See if the tree is empty
-    if (root == NULL) {
+    if (*root == NULL) {
         // Insert new node here
-        root = new AvlNode(item);
+        *root = new AvlNode(item);
         change = HEIGHT_CHANGE;
         return root;
     }
 
     // Initialize
-    AvlNode *found = NULL;
+    AvlNode **found = NULL;
     int increase = 0;
 
     // Compare items and determine which direction to search
-    cmp_t result = root->Compare(item->Key(), currentSweepPointX, EQ_CMP);
+    cmp_t result = (*root)->Compare(item->Key(), currentSweepPointX, EQ_CMP);
     dir_t dir = (result == MIN_CMP) ? LEFT : RIGHT;
 
     if (result != EQ_CMP) {
         // Insert into "dir" subtree
-        found = Insert(item, root->mySubtree[dir], change, currentSweepPointX);
+        found = Insert(item, &(*root)->mySubtree[dir], change, currentSweepPointX);
         if (!found) return NULL;     // already here - don't insert
         increase = result * change;  // set balance factor increment
     } else {   // key already in tree at this node
@@ -181,15 +181,15 @@ AvlNode *AvlNode::Insert(LineComparable *item,
         return NULL;
     }
 
-    root->myBal += increase;    // update balance factor
+    (*root)->myBal += increase;    // update balance factor
 
     // ----------------------------------------------------------------------
     // re-balance if needed -- height of current tree increases only if its
     // subtree height increases and the current tree needs no rotation.
     // ----------------------------------------------------------------------
 
-    change = (increase && root->myBal)
-             ? (1 - ReBalance(root))
+    change = (increase && (*root)->myBal)
+             ? (1 - ReBalance(*root))
              : HEIGHT_NOCHANGE;
     return found;
 }

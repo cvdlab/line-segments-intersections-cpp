@@ -12,12 +12,12 @@ class AVLTree {
 
 private:
 
-    AvlNode *root;
+    AvlNode **root;
     double currentSweepPointX;
 
 public:
 
-    AVLTree() : root(NULL) { };
+    AVLTree() : root(new AvlNode *()) { };
 
     ~AVLTree() { if (root) delete root; }
 

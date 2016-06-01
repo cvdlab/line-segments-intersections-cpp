@@ -83,7 +83,7 @@ public:
 
     // Insert the given key, return a pointer to the node if it was inserted,
     // otherwise return NULL
-    static AvlNode *Insert(LineComparable *item, AvlNode *root, double currentSweepPointX);
+    static AvlNode **Insert(LineComparable *item, AvlNode **root, double currentSweepPointX);
 
     // Delete the given key from the tree. Return the corresponding
     // node, or return NULL if it was not found.
@@ -150,9 +150,9 @@ private:
     // the key was successfully inserted.  Upon return, the "change"
     // parameter will be '1' if the tree height changed as a result
     // of the insertion (otherwise "change" will be 0).
-    static AvlNode *Insert(LineComparable *item,
-                           AvlNode *&root,
-                           int &change, double currentSweepPointX);
+    static AvlNode **Insert(LineComparable *item,
+                            AvlNode **root,
+                            int &change, double currentSweepPointX);
 
     // Delete the given key from the given tree. Return NULL if the
     // key is not found in the tree. Otherwise return a pointer to the
