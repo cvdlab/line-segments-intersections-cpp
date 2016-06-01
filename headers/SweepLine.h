@@ -12,18 +12,23 @@
 // the Sweep Line itself
 namespace Inters {
     class SweepLine {
-        std::list<Line *> lines; //List of lines
-        AVLTree Tree;      // balanced binary tree
+        std::list<Line *> *lines; //List of lines
+        AVLTree *Tree;      // balanced binary tree
         std::list<Intersection *> intersections;
-        EventQueue eventQueue;
+        EventQueue *eventQueue;
 
     public:
 
-        SweepLine(const list<Line *> &lines) {
+        SweepLine(list<Line *> *lines) {
             this->lines = lines;
+            this->Tree = new AVLTree();
+            initEventQueue();
         }
 
-        ~SweepLine(void) { delete &Tree; } // destructor
+        ~SweepLine(void) {
+            delete Tree;
+            delete eventQueue;
+        } // destructor
 
         Inters::Event *handleEvent();
 
@@ -36,6 +41,8 @@ namespace Inters {
         void swapLines(Event *E);
 
         bool addIntersectionToList(Intersection *intersection);
+
+        void initEventQueue();
     };
 }
 
