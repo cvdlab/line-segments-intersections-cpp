@@ -113,19 +113,26 @@ void Inters::SweepLine::swapLines(Event *E) {
         AvlNode *firstLineNode = this->Tree->search(linesCouple.first);
         AvlNode *secondLineNode = this->Tree->search(linesCouple.second);
 
-        Line *previousLine = this->Tree->prev(firstLineNode)->Key();
-        Line *nextLine = this->Tree->next(secondLineNode)->Key();
+        AvlNode *previousNode = this->Tree->prev(firstLineNode);
+        AvlNode *nextNode = this->Tree->next(secondLineNode);
 
-        LineUtils lineUtils;
-        Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
+        if (previousNode != NULL && nextNode != NULL) {
+            Line *previousLine = previousNode->Key();
+            Line *nextLine = nextNode->Key();
 
-        if (addIntersectionToList(intersection)) {
-            std::list<pair<Line *, Line *> > *couples = new std::list<std::pair<Line *, Line *> >();
-            couples->push_back(intersection->getLines());
-            std::list<Line *> *rights = new std::list<Line *>();
-            std::list<Line *> *lefts = new std::list<Line *>();
-            this->eventQueue->addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
+            LineUtils lineUtils;
+            Intersection *intersection = lineUtils.findIntersection(previousLine, nextLine);
+
+            if (addIntersectionToList(intersection)) {
+                std::list<pair<Line *, Line *> > *couples = new std::list<std::pair<Line *, Line *> >();
+                couples->push_back(intersection->getLines());
+                std::list<Line *> *rights = new std::list<Line *>();
+                std::list<Line *> *lefts = new std::list<Line *>();
+                this->eventQueue->addEvent(new Event(intersection->getIntersectionPoint(), rights, lefts, couples));
+            }
+
         }
+
 
         this->Tree->remove(linesCouple.first);
         this->Tree->remove(linesCouple.second);
